@@ -1,0 +1,58 @@
+{
+  "lessons": [
+    {
+      "id": 1,
+      "title": "Introduction to Space",
+      "content": "This lesson covers the basics of space, including its definition, characteristics, and significance in the universe."
+    },
+    {
+      "id": 2,
+      "title": "Orbital Mechanics",
+      "content": "This lesson explains the principles of orbital mechanics, including Kepler's laws and the concept of gravity."
+    },
+    {
+      "id": 3,
+      "title": "The Solar System",
+      "content": "An overview of the solar system, including planets, moons, and other celestial bodies."
+    },
+    {
+      "id": 4,
+      "title": "Conservation of Momentum",
+      "content": "This lesson discusses the conservation of momentum in space, including examples and applications."
+    }
+  ],
+  "quizzes": [
+    {
+      "id": 1,
+      "title": "Space Basics Quiz",
+      "questions": [
+        {
+          "question": "What is space?",
+          "options": ["A vacuum", "A solid", "A liquid", "None of the above"],
+          "answer": "A vacuum"
+        },
+        {
+          "question": "What is the closest planet to the Sun?",
+          "options": ["Earth", "Mars", "Venus", "Mercury"],
+          "answer": "Mercury"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Orbital Mechanics Quiz",
+      "questions": [
+        {
+          "question": "What law describes the motion of planets around the Sun?",
+          "options": ["Newton's First Law", "Kepler's First Law", "Einstein's Theory", "None of the above"],
+          "answer": "Kepler's First Law"
+        },
+        {
+          "question": "What force keeps planets in orbit?",
+          "options": ["Friction", "Gravity", "Magnetism", "Inertia"],
+          "answer": "Gravity"
+        }
+      ]
+    }
+  ]
+}
