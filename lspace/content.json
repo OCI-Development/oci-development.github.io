@@ -1,29 +1,37 @@
 {
   "lessons": [
     {
-      "id": 1,
+      "id": "intro-space",
       "title": "Introduction to Space",
-      "content": "This lesson covers the basics of space, including its definition, characteristics, and significance in the universe."
+      "sections": [
+        {
+          "title": "What is Space?",
+          "content": "Space is the vast, seemingly infinite expanse that exists beyond the Earth and between celestial bodies."
+        },
+        {
+          "title": "Why Study Space?",
+          "content": "Studying space helps us understand our universe, origins, and the laws of physics."
+        }
+      ]
     },
     {
-      "id": 2,
+      "id": "orbital-mechanics",
       "title": "Orbital Mechanics",
-      "content": "This lesson explains the principles of orbital mechanics, including Kepler's laws and the concept of gravity."
-    },
-    {
-      "id": 3,
-      "title": "The Solar System",
-      "content": "An overview of the solar system, including planets, moons, and other celestial bodies."
-    },
-    {
-      "id": 4,
-      "title": "Conservation of Momentum",
-      "content": "This lesson discusses the conservation of momentum in space, including examples and applications."
+      "sections": [
+        {
+          "title": "Kepler's Laws",
+          "content": "Kepler's laws describe planetary motion. The first law states that planets move in ellipses with the Sun at one focus."
+        },
+        {
+          "title": "Gravity in Orbits",
+          "content": "Gravity is the force that keeps planets in orbit around the Sun."
+        }
+      ]
     }
   ],
   "quizzes": [
     {
-      "id": 1,
+      "id": "space-basics",
       "title": "Space Basics Quiz",
       "questions": [
         {
@@ -32,23 +40,28 @@
           "answer": "A vacuum"
         },
         {
-          "question": "What is the closest planet to the Sun?",
-          "options": ["Earth", "Mars", "Venus", "Mercury"],
-          "answer": "Mercury"
+          "question": "Why do we study space?",
+          "options": [
+            "To understand the universe",
+            "For fun",
+            "To find aliens",
+            "No reason"
+          ],
+          "answer": "To understand the universe"
         }
       ]
     },
     {
-      "id": 2,
+      "id": "orbital-mechanics-quiz",
       "title": "Orbital Mechanics Quiz",
       "questions": [
         {
-          "question": "What law describes the motion of planets around the Sun?",
-          "options": ["Newton's First Law", "Kepler's First Law", "Einstein's Theory", "None of the above"],
-          "answer": "Kepler's First Law"
+          "question": "Who formulated the laws of planetary motion?",
+          "options": ["Newton", "Kepler", "Einstein", "Galileo"],
+          "answer": "Kepler"
         },
         {
-          "question": "What force keeps planets in orbit?",
+          "question": "What keeps planets in orbit?",
           "options": ["Friction", "Gravity", "Magnetism", "Inertia"],
           "answer": "Gravity"
         }
