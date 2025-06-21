@@ -6,185 +6,668 @@
     <title>Learning Hub</title>
     <link rel="shortcut icon" href="https://oci-development.github.io/images/oci-icon-t-white.png" type="image/png">
     <style>
+        :root {
+            --primary: #1a3a5b;
+            --accent: #1976d2;
+            --accent-light: #63a4ff;
+            --bg: #f4f8fb;
+            --card-bg: #fff;
+            --card-shadow: 0 4px 24px #0002;
+            --radius: 16px;
+            --transition: 0.2s cubic-bezier(.4,0,.2,1);
+            --disabled: #b0b8c1;
+        }
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(120deg, #232526 0%, #414345 100%);
-            color: #f4f4f4;
+            background: var(--bg);
+            color: #1a3a5b;
             margin: 0;
             min-height: 100vh;
         }
-        h1 {
+        .navbar {
+            background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.7em 2vw;
+            box-shadow: 0 2px 12px #0002;
+        }
+        .navbar .brand {
+            font-size: 1.5em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: var(--accent-light);
+        }
+        .navbar nav {
+            display: flex;
+            gap: 1.2em;
+        }
+        .navbar button, .navbar label {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.4em 1em;
+            border-radius: 6px;
+            transition: background var(--transition), color var(--transition);
+        }
+        .navbar button.active, .navbar button:hover, .navbar label:hover {
+            background: var(--accent-light);
+            color: var(--primary);
+        }
+        .navbar input[type="file"] {
+            display: none;
+        }
+        .main-content {
+            max-width: 900px;
+            margin: 2.5em auto 2em auto;
+            padding: 0 2vw;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--card-shadow);
+            padding: 2em 2em 1.5em 2em;
+            margin-bottom: 2em;
+        }
+        .home-hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            margin-top: 30px;
+            gap: 1.5em;
+        }
+        .home-hero h1 {
             font-size: 2.5em;
-            letter-spacing: 2px;
-            color: #ffd700;
-            text-shadow: 0 2px 8px #000a;
+            color: var(--primary);
+            margin-bottom: 0.2em;
         }
-        #account-setup, #content {
-            max-width: 600px;
-            margin: 40px auto;
-            background: rgba(34, 40, 49, 0.97);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px 0 #000a;
-            padding: 32px 28px 24px 28px;
+        .home-hero p {
+            font-size: 1.2em;
+            color: #2a4666;
         }
-        h2 {
-            color: #ffd700;
-            margin-bottom: 18px;
-            border-bottom: 1px solid #ffd70033;
-            padding-bottom: 6px;
+        .home-hero .cta-btns {
+            display: flex;
+            gap: 1em;
+            flex-wrap: wrap;
+            justify-content: center;
         }
-        input[type="password"] {
-            width: 80%;
-            padding: 10px;
-            margin: 12px 0 18px 0;
+        .cta-btns button {
+            background: linear-gradient(90deg, var(--accent) 60%, var(--accent-light) 100%);
+            color: #fff;
             border: none;
             border-radius: 8px;
-            font-size: 1em;
-            background: #232931;
-            color: #ffd700;
-            outline: none;
-            box-shadow: 0 2px 8px #0002;
-        }
-        input[type="checkbox"] {
-            accent-color: #ffd700;
-            margin-right: 8px;
-        }
-        label, #change-password {
-            font-size: 1em;
-            color: #f4f4f4;
-        }
-        button {
-            background: linear-gradient(90deg, #ffd700 60%, #ffb300 100%);
-            color: #232526;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 28px;
+            padding: 0.8em 2em;
             font-size: 1.1em;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 18px;
-            box-shadow: 0 2px 8px #0003;
-            transition: background 0.2s, transform 0.2s;
+            box-shadow: 0 2px 8px #1976d220;
+            transition: background var(--transition), color var(--transition), transform var(--transition);
         }
-        button:hover {
-            background: linear-gradient(90deg, #ffb300 60%, #ffd700 100%);
+        .cta-btns button:hover {
+            background: linear-gradient(90deg, var(--accent-light) 60%, var(--accent) 100%);
+            color: var(--primary);
             transform: translateY(-2px) scale(1.04);
         }
+        h2 {
+            color: var(--accent);
+            margin-bottom: 18px;
+            border-bottom: 1px solid #1976d233;
+            padding-bottom: 6px;
+        }
+        .form-group {
+            margin-bottom: 1.2em;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.3em;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        input[type="text"], input[type="password"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e3eaf3;
+            border-radius: 8px;
+            font-size: 1em;
+            background: #f4f8fb;
+            color: var(--primary);
+            outline: none;
+            box-shadow: 0 2px 8px #0001;
+            transition: border var(--transition);
+        }
+        input[type="text"]:focus, input[type="password"]:focus, input[type="date"]:focus {
+            border: 1.5px solid var(--accent);
+        }
+        input[type="checkbox"] {
+            accent-color: var(--accent);
+            margin-right: 8px;
+        }
         .lesson, .quiz {
-            background: #393e46;
+            background: #f8fbff;
             border-radius: 12px;
-            box-shadow: 0 2px 8px #0002;
+            box-shadow: 0 2px 8px #1976d220;
             padding: 20px 18px 14px 18px;
             margin-bottom: 22px;
-            transition: box-shadow 0.2s;
-        }
-        .lesson:hover, .quiz:hover {
-            box-shadow: 0 6px 24px #0004;
+            transition: box-shadow var(--transition);
+            border: 1px solid #e3eaf3;
         }
         .lesson h3, .quiz h3 {
-            color: #ffd700;
+            color: var(--accent);
             margin-top: 0;
             margin-bottom: 10px;
         }
-        .quiz-question {
-            margin-bottom: 10px;
+        .progress-bar {
+            width: 100%;
+            background: #e3eaf3;
+            border-radius: 8px;
+            height: 12px;
+            margin: 1em 0 1.5em 0;
+            overflow: hidden;
         }
-        .quiz-options {
-            margin-bottom: 8px;
+        .progress-bar-inner {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent) 60%, var(--accent-light) 100%);
+            transition: width 0.3s;
+        }
+        .quiz-options button {
+            margin: 0.3em 0.7em 0.3em 0;
+            padding: 0.5em 1.2em;
+            font-size: 1em;
+        }
+        .nav-btns {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5em;
+        }
+        .nav-btns button {
+            min-width: 120px;
         }
         .hidden {
-            display: none;
+            display: none !important;
+        }
+        .user-info-bar {
+            margin-left: 1em;
+            font-size: 1em;
+            color: #e3eaf3;
         }
         @media (max-width: 700px) {
-            #account-setup, #content {
-                max-width: 98vw;
-                padding: 18px 4vw 14px 4vw;
-            }
+            .main-content { padding: 0 1vw; }
+            .card { padding: 1em 0.7em 1em 0.7em; }
+            .navbar { flex-direction: column; align-items: flex-start; gap: 0.5em; }
+            .navbar nav { gap: 0.5em; }
+            .user-info-bar { margin-left: 0; }
         }
     </style>
 </head>
 <body>
-    <h1>Learning Hub: Space and Orbital Conservation</h1>
-    <div id="account-setup">
-        <h2>Create Account</h2>
-        <input type="password" id="password" placeholder="Enter Password">
-        <button id="create-account">Create Account</button>
-        <div>
-            <input type="checkbox" id="change-password"> Change Password on Save
-        </div>
-    </div>
-    <div id="content" class="hidden">
-        <h2>Lessons</h2>
-        <div id="lessons"></div>
-        <h2>Quizzes</h2>
-        <div id="quizzes"></div>
-        <button id="save-progress">Save Progress</button>
-    </div>
+    <header class="navbar">
+        <span class="brand">Learning Hub</span>
+        <nav>
+            <button id="nav-home" class="active">Home</button>
+            <button id="nav-lessons">Lessons</button>
+            <button id="nav-quizzes">Quizzes</button>
+            <button id="nav-account">Account</button>
+            <label for="load-file" style="cursor:pointer;">Load Progress</label>
+            <input type="file" id="load-file" accept=".txt">
+        </nav>
+        <div class="user-info-bar" id="user-info-bar"></div>
+    </header>
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home-section" class="card home-hero">
+            <h1>Welcome to the Learning Hub</h1>
+            <p>
+                Explore interactive lessons and quizzes on space and orbital conservation.<br>
+                Create an account to track your progress, or browse as a guest.
+            </p>
+            <div class="cta-btns">
+                <button id="cta-lessons">Browse Lessons</button>
+                <button id="cta-quizzes">Try a Quiz</button>
+                <button id="cta-account">Create Account</button>
+            </div>
+        </section>
+        <!-- Account Section -->
+        <section id="account-section" class="card hidden">
+            <h2>Create or Load Account</h2>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" placeholder="Your Name">
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter Password">
+            </div>
+            <button id="create-account">Create Account</button>
+            <div style="margin-top:1em;">
+                <input type="checkbox" id="change-password">
+                <label for="change-password" style="display:inline;color:var(--primary);font-weight:400;">Change Password on Save</label>
+            </div>
+            <div id="account-msg" style="color:var(--accent);margin-top:1em;"></div>
+            <button id="logout-btn" class="hidden" style="margin-top:2em;">Logout</button>
+        </section>
+        <!-- Lessons List Section -->
+        <section id="lessons-list-section" class="card hidden">
+            <h2>Lessons</h2>
+            <div id="lessons-list"></div>
+        </section>
+        <!-- Single Lesson Section -->
+        <section id="lesson-section" class="card hidden">
+            <h2 id="lesson-title"></h2>
+            <div class="progress-bar"><div class="progress-bar-inner" id="lesson-progress"></div></div>
+            <div id="lesson-section-content"></div>
+            <div class="nav-btns">
+                <button id="prev-lesson-section">Previous</button>
+                <button id="next-lesson-section">Next</button>
+                <button id="back-to-lessons">Back to Lessons</button>
+            </div>
+        </section>
+        <!-- Quizzes List Section -->
+        <section id="quizzes-list-section" class="card hidden">
+            <h2>Quizzes</h2>
+            <div id="quizzes-list"></div>
+        </section>
+        <!-- Single Quiz Section -->
+        <section id="quiz-section" class="card hidden">
+            <h2 id="quiz-title"></h2>
+            <div class="progress-bar"><div class="progress-bar-inner" id="quiz-progress"></div></div>
+            <div id="quiz-question-content"></div>
+            <div class="nav-btns">
+                <button id="prev-quiz-question">Previous</button>
+                <button id="next-quiz-question">Next</button>
+                <button id="back-to-quizzes">Back to Quizzes</button>
+            </div>
+        </section>
+    </main>
     <script>
-        let lessons = [];
-        let quizzes = [];
-        let userPassword = '';
-        const lessonsContainer = document.getElementById('lessons');
-        const quizzesContainer = document.getElementById('quizzes');
-        const contentDiv = document.getElementById('content');
+    // State
+    let lessons = [];
+    let quizzes = [];
+    let userPassword = '';
+    let progress = {};
+    let loadedFromFile = false;
+    let userInfo = { name: '', dob: '' };
+    let loggedIn = false;
 
-        document.getElementById('create-account').addEventListener('click', () => {
-            const passwordInput = document.getElementById('password').value;
-            if (passwordInput) {
-                userPassword = passwordInput;
-                document.getElementById('account-setup').classList.add('hidden');
-                contentDiv.classList.remove('hidden');
-                loadContent();
-            }
+    // Lesson/Quiz navigation state
+    let lessonIndex = 0;
+    let quizIndex = 0;
+    let quizQuestionIndex = 0;
+    let lessonPage = { id: null, idx: 0 };
+    let quizPage = { id: null, idx: 0 };
+
+    // Elements
+    const navHome = document.getElementById('nav-home');
+    const navLessons = document.getElementById('nav-lessons');
+    const navQuizzes = document.getElementById('nav-quizzes');
+    const navAccount = document.getElementById('nav-account');
+    const loadFileInput = document.getElementById('load-file');
+    const userInfoBar = document.getElementById('user-info-bar');
+
+    const homeSection = document.getElementById('home-section');
+    const accountSection = document.getElementById('account-section');
+    const lessonsListSection = document.getElementById('lessons-list-section');
+    const lessonSection = document.getElementById('lesson-section');
+    const quizzesListSection = document.getElementById('quizzes-list-section');
+    const quizSection = document.getElementById('quiz-section');
+    const lessonContent = document.getElementById('lesson-content');
+    const quizContent = document.getElementById('quiz-content');
+    const lessonTitle = document.getElementById('lesson-title');
+    const lessonSectionContent = document.getElementById('lesson-section-content');
+    const quizTitle = document.getElementById('quiz-title');
+    const quizQuestionContent = document.getElementById('quiz-question-content');
+    const lessonProgress = document.getElementById('lesson-progress');
+    const quizProgress = document.getElementById('quiz-progress');
+    const prevLessonBtn = document.getElementById('prev-lesson');
+    const nextLessonBtn = document.getElementById('next-lesson');
+    const prevQuizBtn = document.getElementById('prev-quiz');
+    const nextQuizBtn = document.getElementById('next-quiz');
+    const prevLessonSectionBtn = document.getElementById('prev-lesson-section');
+    const nextLessonSectionBtn = document.getElementById('next-lesson-section');
+    const backToLessonsBtn = document.getElementById('back-to-lessons');
+    const prevQuizQuestionBtn = document.getElementById('prev-quiz-question');
+    const nextQuizQuestionBtn = document.getElementById('next-quiz-question');
+    const backToQuizzesBtn = document.getElementById('back-to-quizzes');
+    const logoutBtn = document.getElementById('logout-btn');
+    const accountMsg = document.getElementById('account-msg');
+
+    // CTA buttons
+    document.getElementById('cta-lessons').onclick = () => showSection('lessons-list');
+    document.getElementById('cta-quizzes').onclick = () => showSection('quizzes-list');
+    document.getElementById('cta-account').onclick = () => showSection('account');
+
+    // Navbar navigation
+    navHome.onclick = () => showSection('home');
+    navLessons.onclick = () => showSection('lessons-list');
+    navQuizzes.onclick = () => showSection('quizzes-list');
+    navAccount.onclick = () => showSection('account');
+
+    // Section switching
+    function showSection(section) {
+        [homeSection, accountSection, lessonsListSection, lessonSection, quizzesListSection, quizSection].forEach(sec => sec.classList.add('hidden'));
+        navHome.classList.remove('active');
+        navLessons.classList.remove('active');
+        navQuizzes.classList.remove('active');
+        navAccount.classList.remove('active');
+        if (section === 'home') {
+            homeSection.classList.remove('hidden');
+            navHome.classList.add('active');
+        }
+        if (section === 'account') {
+            accountSection.classList.remove('hidden');
+            navAccount.classList.add('active');
+        }
+        if (section === 'lessons-list') {
+            lessonsListSection.classList.remove('hidden');
+            navLessons.classList.add('active');
+            renderLessonsList();
+        }
+        if (section === 'lesson') {
+            lessonSection.classList.remove('hidden');
+            renderLessonPage();
+        }
+        if (section === 'quizzes-list') {
+            quizzesListSection.classList.remove('hidden');
+            navQuizzes.classList.add('active');
+            renderQuizzesList();
+        }
+        if (section === 'quiz') {
+            quizSection.classList.remove('hidden');
+            renderQuizPage();
+        }
+    }
+
+    // Enable/disable nav
+    function setLoggedIn(state) {
+        loggedIn = state;
+        logoutBtn.classList.toggle('hidden', !state);
+        userInfoBar.textContent = state && userInfo.name ? `👤 ${userInfo.name}` : '';
+    }
+
+    // Account creation
+    document.getElementById('create-account').onclick = () => {
+        const nameInput = document.getElementById('name').value.trim();
+        const dobInput = document.getElementById('dob').value;
+        const passwordInput = document.getElementById('password').value;
+        if (!nameInput) {
+            accountMsg.textContent = 'Please enter your name.';
+            return;
+        }
+        if (!dobInput) {
+            accountMsg.textContent = 'Please enter your date of birth.';
+            return;
+        }
+        if (!passwordInput) {
+            accountMsg.textContent = 'Please enter a password.';
+            return;
+        }
+        userPassword = passwordInput;
+        userInfo = { name: nameInput, dob: dobInput };
+        loadedFromFile = false;
+        setLoggedIn(true);
+        showSection('lessons-list');
+        accountMsg.textContent = '';
+        saveProgress();
+    };
+
+    // Logout
+    logoutBtn.onclick = () => {
+        userPassword = '';
+        lessons = [];
+        quizzes = [];
+        progress = {};
+        loadedFromFile = false;
+        userInfo = { name: '', dob: '' };
+        setLoggedIn(false);
+        accountMsg.textContent = "Logged out.";
+        document.getElementById('name').value = '';
+        document.getElementById('dob').value = '';
+        document.getElementById('password').value = '';
+        showSection('home');
+    };
+
+    // Load lessons/quizzes from JSON
+    function loadContent() {
+        fetch('https://oci-development.github.io/lspace/content.json')
+            .then(response => response.json())
+            .then(data => {
+                lessons = data.lessons;
+                quizzes = data.quizzes;
+                renderLesson();
+                renderQuiz();
+            });
+    }
+
+    // Lesson navigation and rendering
+    function renderLesson() {
+        if (!lessons.length) return;
+        lessonIndex = Math.max(0, Math.min(lessonIndex, lessons.length - 1));
+        const lesson = lessons[lessonIndex];
+        lessonContent.innerHTML = `
+            <div class="lesson">
+                <h3>${lesson.title}</h3>
+                <p>${lesson.content}</p>
+            </div>
+        `;
+        lessonProgress.style.width = `${((lessonIndex + 1) / lessons.length) * 100}%`;
+        prevLessonBtn.disabled = lessonIndex === 0;
+        nextLessonBtn.disabled = lessonIndex === lessons.length - 1;
+    }
+    prevLessonBtn.onclick = () => { lessonIndex--; renderLesson(); };
+    nextLessonBtn.onclick = () => { lessonIndex++; renderLesson(); };
+
+    // Quiz navigation and rendering
+    function renderQuiz() {
+        if (!quizzes.length) return;
+        quizIndex = Math.max(0, Math.min(quizIndex, quizzes.length - 1));
+        const quiz = quizzes[quizIndex];
+        const questions = quiz.questions;
+        quizQuestionIndex = Math.max(0, Math.min(quizQuestionIndex, questions.length - 1));
+        const q = questions[quizQuestionIndex];
+        // Progress bar
+        quizProgress.style.width = `${((quizQuestionIndex + 1) / questions.length) * 100}%`;
+        // Render question
+        let html = `<div class="quiz"><h3>${quiz.title}</h3>
+            <div class="quiz-question"><strong>Q${quizQuestionIndex + 1}:</strong> ${q.question}</div>
+            <div class="quiz-options">`;
+        q.options.forEach(opt => {
+            let selected = progress[quiz.id] && progress[quiz.id][quizQuestionIndex] === opt;
+            html += `<button class="${selected ? 'selected' : ''}" data-opt="${opt}">${opt}</button>`;
         });
-
-        function loadContent() {
-            fetch('content.json')
-                .then(response => response.json())
-                .then(data => {
-                    lessons = data.lessons;
-                    quizzes = data.quizzes;
-                    displayLessons();
-                    displayQuizzes();
-                });
+        html += `</div>`;
+        // Feedback
+        if (progress[quiz.id] && progress[quiz.id][quizQuestionIndex]) {
+            const correct = progress[quiz.id][quizQuestionIndex] === q.answer;
+            html += `<div style="margin-top:1em;font-weight:bold;color:${correct ? 'var(--accent)' : '#b00'};">
+                ${correct ? 'Correct!' : 'Incorrect. Correct answer: ' + q.answer}
+            </div>`;
         }
-
-        function displayLessons() {
-            lessons.forEach(lesson => {
-                const lessonDiv = document.createElement('div');
-                lessonDiv.className = 'lesson';
-                lessonDiv.innerHTML = `<h3>${lesson.title}</h3><p>${lesson.content}</p>`;
-                lessonsContainer.appendChild(lessonDiv);
-            });
-        }
-
-        function displayQuizzes() {
-            quizzes.forEach(quiz => {
-                const quizDiv = document.createElement('div');
-                quizDiv.className = 'quiz';
-                quizDiv.innerHTML = `<h3>${quiz.title}</h3><p>${quiz.question}</p>`;
-                quizzesContainer.appendChild(quizDiv);
-            });
-        }
-
-        document.getElementById('save-progress').addEventListener('click', () => {
-            const changePassword = document.getElementById('change-password').checked;
-            const progressData = {
-                lessons: lessons,
-                quizzes: quizzes,
-                password: changePassword ? prompt("Enter new password") : userPassword
+        html += `</div>`;
+        quizContent.innerHTML = html;
+        // Button listeners
+        document.querySelectorAll('.quiz-options button').forEach(btn => {
+            btn.onclick = () => {
+                if (!progress[quiz.id]) progress[quiz.id] = {};
+                progress[quiz.id][quizQuestionIndex] = btn.getAttribute('data-opt');
+                renderQuiz();
+                if (loggedIn) saveProgress();
             };
-            const encryptedData = btoa(JSON.stringify(progressData));
-            const blob = new Blob([encryptedData], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'progress.txt';
-            a.click();
-            URL.revokeObjectURL(url);
         });
+        prevQuizBtn.disabled = quizQuestionIndex === 0;
+        nextQuizBtn.disabled = quizQuestionIndex === questions.length - 1;
+    }
+    prevQuizBtn.onclick = () => { quizQuestionIndex--; renderQuiz(); };
+    nextQuizBtn.onclick = () => { quizQuestionIndex++; renderQuiz(); };
+
+    // Save progress (if logged in)
+    function saveProgress() {
+        if (!loggedIn) return;
+        const progressData = {
+            lessons,
+            quizzes,
+            progress,
+            password: userPassword,
+            userInfo
+        };
+        localStorage.setItem('learningHubProgress', btoa(unescape(encodeURIComponent(JSON.stringify(progressData)))));
+    }
+
+    // Load progress from file
+    loadFileInput.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+            const encrypted = evt.target.result;
+            let decrypted;
+            try {
+                decrypted = decodeURIComponent(escape(atob(encrypted)));
+                const data = JSON.parse(decrypted);
+                // Ask for password
+                const pass = prompt("Enter password to unlock this progress file:");
+                if (pass !== data.password) {
+                    alert("Incorrect password for loaded file.");
+                    return;
+                }
+                userPassword = pass;
+                lessons = data.lessons;
+                quizzes = data.quizzes;
+                progress = data.progress || {};
+                userInfo = data.userInfo || { name: '', dob: '' };
+                setLoggedIn(true);
+                showSection('lessons-list');
+                renderLesson();
+                renderQuiz();
+                accountMsg.textContent = "Progress loaded!";
+            } catch (err) {
+                alert("Failed to load file. Is this a valid progress file?");
+            }
+        };
+        reader.readAsText(file);
+    };
+
+    // Load from localStorage if available
+    window.onload = () => {
+        loadContent();
+        const saved = localStorage.getItem('learningHubProgress');
+        if (saved) {
+            try {
+                const decrypted = decodeURIComponent(escape(atob(saved)));
+                const data = JSON.parse(decrypted);
+                userPassword = data.password;
+                lessons = data.lessons;
+                quizzes = data.quizzes;
+                progress = data.progress || {};
+                userInfo = data.userInfo || { name: '', dob: '' };
+                setLoggedIn(true);
+                showSection('lessons-list');
+                renderLesson();
+                renderQuiz();
+            } catch {}
+        } else {
+            showSection('home');
+        }
+    };
+
+    // Render lessons list
+    function renderLessonsList() {
+        lessonsListDiv.innerHTML = '';
+        lessons.forEach(lesson => {
+            const btn = document.createElement('button');
+            btn.textContent = lesson.title;
+            btn.className = 'lesson-list-btn';
+            btn.onclick = () => {
+                lessonPage.id = lesson.id;
+                lessonPage.idx = 0;
+                showSection('lesson');
+                renderLessonPage();
+            };
+            lessonsListDiv.appendChild(btn);
+        });
+    }
+
+    // Render single lesson page
+    function renderLessonPage() {
+        const lesson = lessons.find(l => l.id === lessonPage.id);
+        if (!lesson) return;
+        lessonTitle.textContent = lesson.title;
+        const section = lesson.sections[lessonPage.idx];
+        let html = `<h3>${section.title}</h3>`;
+        if (section.image) {
+            html += `<img src="${section.image}" alt="${section.title}" style="max-width:100%;border-radius:8px;margin-bottom:1em;">`;
+        }
+        html += `<p>${section.content}</p>`;
+        if (section.link) {
+            html += `<p><a href="${section.link}" target="_blank" style="color:var(--accent);text-decoration:underline;">Learn more</a></p>`;
+        }
+        lessonSectionContent.innerHTML = html;
+        lessonProgressBar.style.width = `${((lessonPage.idx + 1) / lesson.sections.length) * 100}%`;
+        prevLessonSectionBtn.disabled = lessonPage.idx === 0;
+        nextLessonSectionBtn.disabled = lessonPage.idx === lesson.sections.length - 1;
+    }
+    prevLessonSectionBtn.onclick = () => { lessonPage.idx--; renderLessonPage(); };
+    nextLessonSectionBtn.onclick = () => { lessonPage.idx++; renderLessonPage(); };
+    backToLessonsBtn.onclick = () => showSection('lessons-list');
+
+    // Render quizzes list
+    function renderQuizzesList() {
+        quizzesListDiv.innerHTML = '';
+        quizzes.forEach(quiz => {
+            const btn = document.createElement('button');
+            btn.textContent = quiz.title;
+            btn.className = 'quiz-list-btn';
+            btn.onclick = () => {
+                quizPage.id = quiz.id;
+                quizPage.idx = 0;
+                showSection('quiz');
+                renderQuizPage();
+            };
+            quizzesListDiv.appendChild(btn);
+        });
+    }
+
+    // Render single quiz page
+    function renderQuizPage() {
+        const quiz = quizzes.find(q => q.id === quizPage.id);
+        if (!quiz) return;
+        quizTitle.textContent = quiz.title;
+        const q = quiz.questions[quizPage.idx];
+        quizProgressBar.style.width = `${((quizPage.idx + 1) / quiz.questions.length) * 100}%`;
+        let html = `<div class="quiz-question"><strong>Q${quizPage.idx + 1}:</strong> ${q.question}</div>
+            <div class="quiz-options">`;
+        q.options.forEach(opt => {
+            let selected = progress[quiz.id] && progress[quiz.id][quizPage.idx] === opt;
+            html += `<button class="${selected ? 'selected' : ''}" data-opt="${opt}">${opt}</button>`;
+        });
+        html += `</div>`;
+        if (progress[quiz.id] && progress[quiz.id][quizPage.idx]) {
+            const correct = progress[quiz.id][quizPage.idx] === q.answer;
+            html += `<div style="margin-top:1em;font-weight:bold;color:${correct ? 'var(--accent)' : '#b00'};">
+                ${correct ? 'Correct!' : 'Incorrect. Correct answer: ' + q.answer}
+            </div>`;
+        }
+        quizQuestionContent.innerHTML = html;
+        document.querySelectorAll('.quiz-options button').forEach(btn => {
+            btn.onclick = () => {
+                if (!progress[quiz.id]) progress[quiz.id] = {};
+                progress[quiz.id][quizPage.idx] = btn.getAttribute('data-opt');
+                renderQuizPage();
+                if (loggedIn) saveProgress();
+            };
+        });
+        prevQuizQuestionBtn.disabled = quizPage.idx === 0;
+        nextQuizQuestionBtn.disabled = quizPage.idx === quiz.questions.length - 1;
+    }
+    prevQuizQuestionBtn.onclick = () => { quizPage.idx--; renderQuizPage(); };
+    nextQuizQuestionBtn.onclick = () => { quizPage.idx++; renderQuizPage(); };
+    backToQuizzesBtn.onclick = () => showSection('quizzes-list');
     </script>
 </body>
 </html>
