@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Orbital Conservation Institute - Maintenance</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+            color: #fff;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: rgba(20, 34, 51, 0.95);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            padding: 48px 32px;
+            max-width: 400px;
+            text-align: center;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 24px;
+            display: inline-block;
+        }
+        .logo svg {
+            width: 100%;
+            height: 100%;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+            color: #dbeafe;
+        }
+        .countdown {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: #7dd3fc;
+        }
+        .footer {
+            font-size: 0.95rem;
+            color: #a5b4fc;
+            margin-top: 24px;
+        }
+        @media (max-width: 500px) {
+            .container {
+                padding: 32px 10px;
+                max-width: 95vw;
+            }
+            h1 {
+                font-size: 1.3rem;
+            }
+            .countdown {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <!-- Simple orbital logo SVG -->
+            <img src="https://oci-development.github.io/images/oci-logo-t-white.png" alt="OCI Logo" style="width: auto; height: 80px;">
+        </div>
+        <h1>We'll Be Back Soon!</h1>
+        <p>
+            This Orbital Conservation Institute site is currently undergoing scheduled maintenance. We appreciate your patience and will be back online shortly.
+        </p>
+        <p>
+            In the meantime, why not try our <strong>Asteroid Dodge Mini-Game</strong> to pass the time?
+        </p>
+        <!-- Game Modal Trigger Button -->
+        <button id="openGameBtn" style="margin-bottom: 18px; background: #2563eb; color: #fff; border: none; border-radius: 6px; padding: 10px 22px; font-size: 1rem; cursor: pointer; box-shadow: 0 2px 8px #0002;">
+            Play Mini-Game
+        </button>
+
+        <!-- Modal Structure -->
+        <div id="gameModal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(15,32,39,0.92); align-items:center; justify-content:center;">
+            <div style="background:#1e293b; border-radius:16px; padding:32px 18px 18px 18px; box-shadow:0 8px 32px 0 rgba(31,38,135,0.37); position:relative; max-width:350px; margin:auto;">
+                <button id="closeGameBtn" style="position:absolute; top:10px; right:14px; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">&times;</button>
+                <h2 style="margin-top:0; color:#7dd3fc;">Asteroid Dodge Mini-Game</h2>
+                <div id="gameInstructions" style="color:#dbeafe; font-size:1rem; margin-bottom:12px;">
+                    Dodge the asteroids!<br>
+                    Use <b>←</b>/<b>→</b> or <b>A</b>/<b>D</b> to move.<br>
+                    <br>
+                    <button id="startGameBtn" style="margin-top:8px; background:#38bdf8; color:#1e293b; border:none; border-radius:6px; padding:8px 18px; font-size:1rem; cursor:pointer;">
+                        Start Game
+                    </button>
+                </div>
+                <canvas id="gameCanvas" width="320" height="400" style="background:#111; border-radius:10px; display:none;"></canvas>
+            </div>
+        </div>
+
+        <div class="footer">
+            &copy; <span id="year"></span> Orbital Conservation Institute<br>
+            All rights reserved.
+        </div>
+    </div>
+    <script>
+        // Modal logic
+        const openGameBtn = document.getElementById('openGameBtn');
+        const gameModal = document.getElementById('gameModal');
+        const closeGameBtn = document.getElementById('closeGameBtn');
+        const startGameBtn = document.getElementById('startGameBtn');
+        const gameInstructions = document.getElementById('gameInstructions');
+        const gameCanvas = document.getElementById('gameCanvas');
+
+        openGameBtn.onclick = () => {
+            gameModal.style.display = "flex";
+            gameInstructions.style.display = "block";
+            gameCanvas.style.display = "none";
+        };
+        closeGameBtn.onclick = () => {
+            gameModal.style.display = "none";
+            stopGame();
+        };
+        window.onclick = (e) => {
+            if (e.target === gameModal) {
+                gameModal.style.display = "none";
+                stopGame();
+            }
+        };
+
+        startGameBtn.onclick = () => {
+            gameInstructions.style.display = "none";
+            gameCanvas.style.display = "block";
+            startGame();
+        };
+
+        // --- Simple Space Dodge Game ---
+        let animationId;
+        let running = false;
+
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Spaceship
+        const ship = {
+            x: canvas.width / 2 - 16,
+            y: canvas.height - 50,
+            w: 32,
+            h: 32,
+            speed: 5
+        };
+
+        // Asteroids
+        let asteroids = [];
+        let score = 0;
+        let gameOver = false;
+
+        function drawShip() {
+            ctx.save();
+            ctx.translate(ship.x + ship.w / 2, ship.y + ship.h / 2);
+            ctx.rotate(0);
+            ctx.beginPath();
+            ctx.moveTo(0, -16);
+            ctx.lineTo(12, 16);
+            ctx.lineTo(0, 8);
+            ctx.lineTo(-12, 16);
+            ctx.closePath();
+            ctx.fillStyle = "#7dd3fc";
+            ctx.shadowColor = "#38bdf8";
+            ctx.shadowBlur = 10;
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function drawAsteroid(a) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
+            ctx.fillStyle = "#fbbf24";
+            ctx.shadowColor = "#f59e42";
+            ctx.shadowBlur = 10;
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function spawnAsteroid() {
+            const r = 12 + Math.random() * 10;
+            asteroids.push({
+                x: r + Math.random() * (canvas.width - 2 * r),
+                y: -r,
+                r: r,
+                speed: 2 + Math.random() * 2
+            });
+        }
+
+        function resetGame() {
+            asteroids = [];
+            score = 0;
+            ship.x = canvas.width / 2 - 16;
+            gameOver = false;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            drawShip();
+
+            // Draw asteroids
+            for (const a of asteroids) {
+                drawAsteroid(a);
+            }
+
+            // Draw score
+            ctx.fillStyle = "#fff";
+            ctx.font = "bold 18px Segoe UI, Arial";
+            ctx.fillText("Score: " + score, 10, 24);
+
+            if (gameOver) {
+                ctx.fillStyle = "#f87171";
+                ctx.font = "bold 28px Segoe UI, Arial";
+                ctx.textAlign = "center";
+                ctx.fillText("Game Over!", canvas.width / 2, canvas.height / 2 - 10);
+                ctx.font = "16px Segoe UI, Arial";
+                ctx.fillStyle = "#fff";
+                ctx.fillText("Press Space to Restart", canvas.width / 2, canvas.height / 2 + 20);
+                ctx.textAlign = "start";
+            }
+        }
+
+        function update() {
+            if (gameOver) return;
+
+            // Move asteroids
+            for (const a of asteroids) {
+                a.y += a.speed;
+            }
+
+            // Remove off-screen asteroids and increase score
+            asteroids = asteroids.filter(a => {
+                if (a.y - a.r > canvas.height) {
+                    score++;
+                    return false;
+                }
+                return true;
+            });
+
+            // Collision detection
+            for (const a of asteroids) {
+                const dx = (ship.x + ship.w / 2) - a.x;
+                const dy = (ship.y + ship.h / 2) - a.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < a.r + 16) {
+                    gameOver = true;
+                }
+            }
+        }
+
+        // Controls
+        const keys = {};
+        document.addEventListener('keydown', e => {
+            if (!running) return;
+            keys[e.key] = true;
+            if (gameOver && e.key === " ") {
+                resetGame();
+            }
+        });
+        document.addEventListener('keyup', e => {
+            if (!running) return;
+            keys[e.key] = false;
+        });
+
+        function moveShip() {
+            if (keys["ArrowLeft"] || keys["a"]) ship.x -= ship.speed;
+            if (keys["ArrowRight"] || keys["d"]) ship.x += ship.speed;
+            ship.x = Math.max(0, Math.min(canvas.width - ship.w, ship.x));
+        }
+
+        // Game loop
+        let lastAsteroid = 0;
+        function gameLoop(ts) {
+            if (!running) return;
+            if (!lastAsteroid || ts - lastAsteroid > 800 + Math.random() * 700) {
+                if (!gameOver) spawnAsteroid();
+                lastAsteroid = ts;
+            }
+            moveShip();
+            update();
+            draw();
+            animationId = requestAnimationFrame(gameLoop);
+        }
+
+        function startGame() {
+            resetGame();
+            running = true;
+            lastAsteroid = 0;
+            animationId = requestAnimationFrame(gameLoop);
+        }
+
+        function stopGame() {
+            running = false;
+            cancelAnimationFrame(animationId);
+        }
+
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
