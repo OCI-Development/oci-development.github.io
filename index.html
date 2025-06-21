@@ -92,26 +92,40 @@
             height: auto;
             aspect-ratio: 4/5;
         }
+        #closeGameBtn {
+            background: rgba(248, 113, 113, 0.7);
+            border: none;
+            border-radius: 50%;
+            padding: 2px 10px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            color: #fff;
+            box-shadow: 0 2px 8px #0002;
+        }
         .game-controls-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            margin-top: 1em;
         }
         .game-control {
             display: none;
             background: rgba(59,130,246,0.7);
             border: none;
             color: #fff;
-            font-size: 2.2rem;
+            font-size: 2rem;
             border-radius: 50%;
-            width: 48px;
-            height: 48px;
-            margin: 0 1em;
+            width: auto;
+            height: auto;
+            margin: 0 1.5em;
             z-index: 2;
             box-shadow: 0 2px 8px #0002;
             user-select: none;
             touch-action: none;
+            padding: 5px 12px;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease;
         }
         .game-control:active {
             background: rgba(59,130,246,1);
@@ -175,10 +189,13 @@
             }
         }
         .fa-solid.fa-arrow-left {
-            margin-top: 5px;
+            margin-top: 3.5px;
         }
         .fa-solid.fa-arrow-right {
-            margin-top: 5px;
+            margin-top: 3.5px;
+        }
+        .fa-solid.fa-xmark {
+            margin-top: 4.5px;
         }
     </style>
 </head>
@@ -203,8 +220,10 @@
         <!-- Modal Structure -->
         <div id="gameModal">
             <div class="modal-inner" style="position:relative;">
-                <button id="closeGameBtn" style="position:absolute; top:10px; right:14px; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">&times;</button>
-                <h2 style="margin-top:0; color:#7dd3fc;">Asteroid Dodge Mini-Game</h2>
+                <button id="closeGameBtn" style="position:absolute; top:10px; right:14px; font-size:1.5rem; cursor:pointer;">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <h2 style="color:#7dd3fc;">Asteroid Dodge Mini-Game</h2>
                 <div id="gameInstructions" style="color:#dbeafe; font-size:1rem; margin-bottom:12px;">
                     Dodge the asteroids!<br>
                     Use <b>←</b>/<b>→</b> or <b>A</b>/<b>D</b> to move.<br>
