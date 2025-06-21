@@ -5,6 +5,7 @@
     <title>OCI | Orbital Conservation Institute</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="https://oci-development.github.io/images/oci-icon-t-white.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         html, body {
             height: 100%;
@@ -106,7 +107,7 @@
             border-radius: 50%;
             width: 48px;
             height: 48px;
-            margin: 0 6px;
+            margin: 0 1em;
             z-index: 2;
             box-shadow: 0 2px 8px #0002;
             user-select: none;
@@ -173,6 +174,12 @@
                 height: 40px;
             }
         }
+        .fa-solid.fa-arrow-left {
+            margin-top: 5px;
+        }
+        .fa-solid.fa-arrow-right {
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -207,9 +214,13 @@
                     </button>
                 </div>
                 <div class="game-controls-wrapper">
-                    <button class="game-control left" id="touchLeft" aria-label="Move Left">&#8592;</button>
+                    <button class="game-control left" id="touchLeft" aria-label="Move Left">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
                     <canvas id="gameCanvas" width="320" height="400"></canvas>
-                    <button class="game-control right" id="touchRight" aria-label="Move Right">&#8594;</button>
+                    <button class="game-control right" id="touchRight" aria-label="Move Right">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
                 </div>
             </div>
         </div>
