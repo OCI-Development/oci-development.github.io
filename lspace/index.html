@@ -1,1 +1,189 @@
-<!-- Placeholder Content-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Hub</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #232526 0%, #414345 100%);
+            color: #f4f4f4;
+            margin: 0;
+            min-height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 2.5em;
+            letter-spacing: 2px;
+            color: #ffd700;
+            text-shadow: 0 2px 8px #000a;
+        }
+        #account-setup, #content {
+            max-width: 600px;
+            margin: 40px auto;
+            background: rgba(34, 40, 49, 0.97);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 #000a;
+            padding: 32px 28px 24px 28px;
+        }
+        h2 {
+            color: #ffd700;
+            margin-bottom: 18px;
+            border-bottom: 1px solid #ffd70033;
+            padding-bottom: 6px;
+        }
+        input[type="password"] {
+            width: 80%;
+            padding: 10px;
+            margin: 12px 0 18px 0;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            background: #232931;
+            color: #ffd700;
+            outline: none;
+            box-shadow: 0 2px 8px #0002;
+        }
+        input[type="checkbox"] {
+            accent-color: #ffd700;
+            margin-right: 8px;
+        }
+        label, #change-password {
+            font-size: 1em;
+            color: #f4f4f4;
+        }
+        button {
+            background: linear-gradient(90deg, #ffd700 60%, #ffb300 100%);
+            color: #232526;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 28px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 18px;
+            box-shadow: 0 2px 8px #0003;
+            transition: background 0.2s, transform 0.2s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #ffb300 60%, #ffd700 100%);
+            transform: translateY(-2px) scale(1.04);
+        }
+        .lesson, .quiz {
+            background: #393e46;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #0002;
+            padding: 20px 18px 14px 18px;
+            margin-bottom: 22px;
+            transition: box-shadow 0.2s;
+        }
+        .lesson:hover, .quiz:hover {
+            box-shadow: 0 6px 24px #0004;
+        }
+        .lesson h3, .quiz h3 {
+            color: #ffd700;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .quiz-question {
+            margin-bottom: 10px;
+        }
+        .quiz-options {
+            margin-bottom: 8px;
+        }
+        .hidden {
+            display: none;
+        }
+        @media (max-width: 700px) {
+            #account-setup, #content {
+                max-width: 98vw;
+                padding: 18px 4vw 14px 4vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Learning Hub: Space and Orbital Conservation</h1>
+    <div id="account-setup">
+        <h2>Create Account</h2>
+        <input type="password" id="password" placeholder="Enter Password">
+        <button id="create-account">Create Account</button>
+        <div>
+            <input type="checkbox" id="change-password"> Change Password on Save
+        </div>
+    </div>
+    <div id="content" class="hidden">
+        <h2>Lessons</h2>
+        <div id="lessons"></div>
+        <h2>Quizzes</h2>
+        <div id="quizzes"></div>
+        <button id="save-progress">Save Progress</button>
+    </div>
+    <script>
+        let lessons = [];
+        let quizzes = [];
+        let userPassword = '';
+        const lessonsContainer = document.getElementById('lessons');
+        const quizzesContainer = document.getElementById('quizzes');
+        const contentDiv = document.getElementById('content');
+
+        document.getElementById('create-account').addEventListener('click', () => {
+            const passwordInput = document.getElementById('password').value;
+            if (passwordInput) {
+                userPassword = passwordInput;
+                document.getElementById('account-setup').classList.add('hidden');
+                contentDiv.classList.remove('hidden');
+                loadContent();
+            }
+        });
+
+        function loadContent() {
+            fetch('content.json')
+                .then(response => response.json())
+                .then(data => {
+                    lessons = data.lessons;
+                    quizzes = data.quizzes;
+                    displayLessons();
+                    displayQuizzes();
+                });
+        }
+
+        function displayLessons() {
+            lessons.forEach(lesson => {
+                const lessonDiv = document.createElement('div');
+                lessonDiv.className = 'lesson';
+                lessonDiv.innerHTML = `<h3>${lesson.title}</h3><p>${lesson.content}</p>`;
+                lessonsContainer.appendChild(lessonDiv);
+            });
+        }
+
+        function displayQuizzes() {
+            quizzes.forEach(quiz => {
+                const quizDiv = document.createElement('div');
+                quizDiv.className = 'quiz';
+                quizDiv.innerHTML = `<h3>${quiz.title}</h3><p>${quiz.question}</p>`;
+                quizzesContainer.appendChild(quizDiv);
+            });
+        }
+
+        document.getElementById('save-progress').addEventListener('click', () => {
+            const changePassword = document.getElementById('change-password').checked;
+            const progressData = {
+                lessons: lessons,
+                quizzes: quizzes,
+                password: changePassword ? prompt("Enter new password") : userPassword
+            };
+            const encryptedData = btoa(JSON.stringify(progressData));
+            const blob = new Blob([encryptedData], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'progress.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+    </script>
+</body>
+</html>
