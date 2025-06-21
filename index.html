@@ -91,6 +91,55 @@
             height: auto;
             aspect-ratio: 4/5;
         }
+        .game-controls-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .game-control {
+            display: none;
+            background: rgba(59,130,246,0.7);
+            border: none;
+            color: #fff;
+            font-size: 2.2rem;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            margin: 0 6px;
+            z-index: 2;
+            box-shadow: 0 2px 8px #0002;
+            user-select: none;
+            touch-action: none;
+        }
+        .game-control:active {
+            background: rgba(59,130,246,1);
+        }
+        @media (max-width: 700px) {
+            .game-control {
+                display: inline-block;
+            }
+            #gameCanvas {
+                max-width: 70vw;
+            }
+        }
+        @media (max-width: 500px) {
+            #gameCanvas {
+                max-width: 60vw;
+            }
+            .game-control {
+                width: 40px;
+                height: 40px;
+                font-size: 1.6rem;
+            }
+        }
+        @media (max-width: 350px) {
+            .game-control {
+                width: 32px;
+                height: 32px;
+                font-size: 1.1rem;
+            }
+        }
         /* Responsive styles */
         @media (max-width: 500px) {
             .container {
@@ -146,7 +195,7 @@
 
         <!-- Modal Structure -->
         <div id="gameModal">
-            <div class="modal-inner">
+            <div class="modal-inner" style="position:relative;">
                 <button id="closeGameBtn" style="position:absolute; top:10px; right:14px; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">&times;</button>
                 <h2 style="margin-top:0; color:#7dd3fc;">Asteroid Dodge Mini-Game</h2>
                 <div id="gameInstructions" style="color:#dbeafe; font-size:1rem; margin-bottom:12px;">
@@ -157,7 +206,11 @@
                         Start Game
                     </button>
                 </div>
-                <canvas id="gameCanvas" width="320" height="400"></canvas>
+                <div class="game-controls-wrapper">
+                    <button class="game-control left" id="touchLeft" aria-label="Move Left">&#8592;</button>
+                    <canvas id="gameCanvas" width="320" height="400"></canvas>
+                    <button class="game-control right" id="touchRight" aria-label="Move Right">&#8594;</button>
+                </div>
             </div>
         </div>
 
@@ -363,6 +416,57 @@
             running = false;
             cancelAnimationFrame(animationId);
         }
+
+        // Touch controls for mobile
+        const touchLeft = document.getElementById('touchLeft');
+        const touchRight = document.getElementById('touchRight');
+        let leftInterval, rightInterval;
+
+        function startLeft() {
+            keys["ArrowLeft"] = true;
+            keys["a"] = true;
+            if (!leftInterval) {
+                leftInterval = setInterval(() => {
+                    keys["ArrowLeft"] = true;
+                    keys["a"] = true;
+                }, 16);
+            }
+        }
+        function stopLeft() {
+            keys["ArrowLeft"] = false;
+            keys["a"] = false;
+            clearInterval(leftInterval);
+            leftInterval = null;
+        }
+        function startRight() {
+            keys["ArrowRight"] = true;
+            keys["d"] = true;
+            if (!rightInterval) {
+                rightInterval = setInterval(() => {
+                    keys["ArrowRight"] = true;
+                    keys["d"] = true;
+                }, 16);
+            }
+        }
+        function stopRight() {
+            keys["ArrowRight"] = false;
+            keys["d"] = false;
+            clearInterval(rightInterval);
+            rightInterval = null;
+        }
+
+        // Touch events
+        touchLeft.addEventListener('touchstart', e => { e.preventDefault(); startLeft(); });
+        touchLeft.addEventListener('touchend', e => { e.preventDefault(); stopLeft(); });
+        touchLeft.addEventListener('mousedown', startLeft);
+        touchLeft.addEventListener('mouseup', stopLeft);
+        touchLeft.addEventListener('mouseleave', stopLeft);
+
+        touchRight.addEventListener('touchstart', e => { e.preventDefault(); startRight(); });
+        touchRight.addEventListener('touchend', e => { e.preventDefault(); stopRight(); });
+        touchRight.addEventListener('mousedown', startRight);
+        touchRight.addEventListener('mouseup', stopRight);
+        touchRight.addEventListener('mouseleave', stopRight);
 
         // Set current year in footer
         document.getElementById('year').textContent = new Date().getFullYear();
