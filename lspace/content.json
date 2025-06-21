@@ -6,11 +6,14 @@
       "sections": [
         {
           "title": "What is Space?",
-          "content": "Space is the vast, seemingly infinite expanse that exists beyond the Earth and between celestial bodies."
+          "content": "Space is the vast, seemingly infinite expanse that exists beyond the Earth and between celestial bodies.",
+          "image": "images/nasa-orbit-1.jpg",
+          "link": "https://en.wikipedia.org/wiki/Outer_space"
         },
         {
           "title": "Why Study Space?",
-          "content": "Studying space helps us understand our universe, origins, and the laws of physics."
+          "content": "Studying space helps us understand our universe, origins, and the laws of physics.",
+          "image": "images/nasa-orbit-1.jpg"
         }
       ]
     },
@@ -20,11 +23,14 @@
       "sections": [
         {
           "title": "Kepler's Laws",
-          "content": "Kepler's laws describe planetary motion. The first law states that planets move in ellipses with the Sun at one focus."
+          "content": "Kepler's laws describe planetary motion. The first law states that planets move in ellipses with the Sun at one focus.",
+          "image": "images/kepler.png",
+          "link": "https://en.wikipedia.org/wiki/Kepler%27s_laws_of_planetary_motion"
         },
         {
           "title": "Gravity in Orbits",
-          "content": "Gravity is the force that keeps planets in orbit around the Sun."
+          "content": "Gravity is the force that keeps planets in orbit around the Sun.",
+          "image": "images/gravity.jpg"
         }
       ]
     }
