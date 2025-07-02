@@ -27,6 +27,108 @@
                 box-sizing: border-box;
             }
 
+            /* Notification Banner Styles */
+            .notification-banner {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+                background: #a72929;
+                color: white;
+                z-index: 1100;
+                overflow: hidden;
+                height: 40px;
+                display: none;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+                transform: translateY(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .notification-banner.active {
+                display: block !important;
+                transform: translateY(0) !important;
+            }
+
+            .notification-content {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                height: 100%;
+                width: 100%;
+                padding: 0 50px 0 20px;
+                white-space: nowrap;
+                animation: scrollText 30s linear infinite;
+                font-weight: 600;
+                font-size: 14px;
+                letter-spacing: 0.5px;
+            }
+
+            .notification-icon {
+                margin-right: 10px;
+                font-size: 16px;
+                animation: pulse 2s ease-in-out infinite;
+            }
+
+            @keyframes scrollText {
+                0% {
+                    transform: translateX(100%);
+                }
+                100% {
+                    transform: translateX(-100%);
+                }
+            }
+
+            @keyframes pulse {
+                0%, 100% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0.7;
+                }
+            }
+
+            .notification-close {
+                position: absolute;
+                right: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: none;
+                border: none;
+                color: white;
+                font-size: 18px;
+                cursor: pointer;
+                opacity: 0.8;
+                transition: opacity 0.2s ease;
+                width: 24px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .notification-close:hover {
+                opacity: 1;
+            }
+
+            /* Adjust body padding when banner is active */
+            body.banner-active {
+                padding-top: 40px;
+            }
+
+            /* Different banner types */
+            .notification-banner.info {
+                background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            }
+
+            .notification-banner.warning {
+                background: linear-gradient(135deg, #f39c12, #e67e22);
+            }
+
+            .notification-banner.success {
+                background: linear-gradient(135deg, #16a085, #138d75);
+            }
+
             body {
                 font-family: var(--font-family);
                 font-size: 19px;
@@ -38,6 +140,7 @@
                 -webkit-font-smoothing: antialiased;
                 -moz-osx-font-smoothing: grayscale;
                 text-rendering: optimizeLegibility;
+                transition: padding-top 0.3s ease;
             }
 
             .govuk-width-container {
@@ -1325,6 +1428,15 @@
         </style>
     </head>
     <body>
+        <!-- Notification Banner -->
+        <div class="notification-banner" id="notificationBanner">
+            <div class="notification-content" id="notificationContent">
+                <span class="notification-icon">⚠️</span>
+                <span id="notificationText">Loading notification...</span>
+            </div>
+            <button class="notification-close" id="notificationClose">×</button>
+        </div>
+
         <div class="scroll-progress">
             <div class="progress-bar"></div>
         </div>
@@ -1337,11 +1449,6 @@
                 </h1>
                 <p class="subtitle">
                     Voluntary Multilateral Charter for Ensuring Sustainable Space Operations
-                    <br>
-                    <div style="font-size: 15px; color: #000000; padding: 1em; background-color: #cd1a1ab9; border-radius: 10px; font-weight: bolder;">
-                        THIS DOCUMENT IS STILL IN DEVELOPMENT<br>
-                        AS SUCH ANY INFORMATION DISPLAYED IS NOT CURRENTLY BINDING
-                    </div>
                 </p>
                 <div class="document-meta">
                     <span>Effective Date: <span id="current-date"></span></span>
@@ -2574,6 +2681,108 @@
                 if (!tocSidebar.contains(event.target) && !tocToggle.contains(event.target)) {
                     tocSidebar.classList.remove('open');
                 }
+            });
+
+            // ===== NOTIFICATION BANNER CONFIGURATION =====
+            // Edit the message, type, and enabled status below to control the banner
+            const NOTIFICATION_CONFIG = {
+                enabled: true, // Set to false to hide the banner completely
+                message: "THIS DOCUMENT IS STILL IN DEVELOPMENT, AS SUCH ANY INFORMATION DISPLAYED IS NOT CURRENTLY BINDING",
+                type: "error", // Options: "info", "warning", "success", "error"
+                icon: "⚠️", // Emoji or symbol to display
+                autoHide: false, // Set to true to auto-hide after a few seconds
+                autoHideDelay: 10000, // Milliseconds to auto-hide (if autoHide is true)
+                resetDismissal: true // Set to true to reset dismissal memory (for testing)
+            };
+
+            // Notification Banner Functionality
+            function initNotificationBanner() {
+                console.log('Initializing notification banner...', NOTIFICATION_CONFIG);
+                
+                const banner = document.getElementById('notificationBanner');
+                const content = document.getElementById('notificationContent');
+                const text = document.getElementById('notificationText');
+                const icon = document.querySelector('.notification-icon');
+                const closeBtn = document.getElementById('notificationClose');
+
+                if (!banner) {
+                    console.error('Banner element not found!');
+                    return;
+                }
+
+                if (!NOTIFICATION_CONFIG.enabled) {
+                    console.log('Banner disabled by configuration');
+                    return; // Don't show banner if disabled
+                }
+
+                // Check if user has dismissed this message before
+                const dismissedKey = `banner_dismissed_${btoa(NOTIFICATION_CONFIG.message).substr(0, 20)}`;
+                
+                // Reset dismissal for testing if configured
+                if (NOTIFICATION_CONFIG.resetDismissal) {
+                    localStorage.removeItem(dismissedKey);
+                    console.log('Dismissal memory cleared for testing');
+                }
+                
+                if (localStorage.getItem(dismissedKey)) {
+                    console.log('Banner previously dismissed');
+                    return; // Don't show if previously dismissed
+                }
+
+                // Set content
+                if (text) text.textContent = NOTIFICATION_CONFIG.message;
+                if (icon) icon.textContent = NOTIFICATION_CONFIG.icon;
+                
+                // Set banner type (affects styling)
+                banner.className = `notification-banner ${NOTIFICATION_CONFIG.type} active`;
+                
+                // Force display to ensure visibility
+                banner.style.display = 'block';
+                banner.style.transform = 'translateY(0)';
+                
+                // Adjust body padding
+                document.body.classList.add('banner-active');
+                
+                console.log('Banner should now be visible, classes:', banner.className);
+                console.log('Banner computed style:', window.getComputedStyle(banner).display);
+
+                // Close button functionality
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', function() {
+                        console.log('Banner close button clicked');
+                        hideBanner();
+                        // Remember user dismissed this message
+                        localStorage.setItem(dismissedKey, 'true');
+                    });
+                }
+
+                // Auto-hide functionality
+                if (NOTIFICATION_CONFIG.autoHide) {
+                    setTimeout(hideBanner, NOTIFICATION_CONFIG.autoHideDelay);
+                }
+
+                // Show banner with animation
+                setTimeout(() => {
+                    if (banner) {
+                        banner.style.transform = 'translateY(0)';
+                        console.log('Banner animation applied');
+                    }
+                }, 100);
+            }
+
+            function hideBanner() {
+                console.log('Hiding banner');
+                const banner = document.getElementById('notificationBanner');
+                if (banner) {
+                    banner.classList.remove('active');
+                    document.body.classList.remove('banner-active');
+                }
+            }
+
+            // Initialize banner when DOM loads - CRITICAL: This must run first
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('DOM loaded, initializing banner...');
+                initNotificationBanner();
             });
 
             // Set current date and calculate reading time
