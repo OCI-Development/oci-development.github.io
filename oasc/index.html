@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="https://oci-development.github.io/images/oci-icon-t-white.png" type="image/png">
-        <title>OCI | Orbital Access and Sustainability Charter (OASC)</title>
+        <title>Orbital Access and Sustainability Charter (OASC)</title>
         <style>
             :root {
                 --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -2683,6 +2683,30 @@
                 }
             });
 
+            // ===== DATE CONFIGURATION =====
+            // Set the effective date for this document
+            const EFFECTIVE_DATE_CONFIG = {
+                // Option 1: Use current date (set useCurrentDate to true)
+                useCurrentDate: false,
+                
+                // Option 2: Use specific date (set useCurrentDate to false and specify date below)
+                specificDate: {
+                    year: 2025,
+                    month: 7, // 1-12 (January = 1, December = 12)
+                    day: 15
+                },
+                
+                // Date format options
+                format: {
+                    locale: 'en-GB', // 'en-US', 'en-GB', etc.
+                    options: {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                    }
+                }
+            };
+
             // ===== NOTIFICATION BANNER CONFIGURATION =====
             // Edit the message, type, and enabled status below to control the banner
             const NOTIFICATION_CONFIG = {
@@ -2787,12 +2811,24 @@
 
             // Set current date and calculate reading time
             document.addEventListener('DOMContentLoaded', function() {
-                // Set current date
-                document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-GB', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                });
+                // Set effective date based on configuration
+                let effectiveDate;
+                if (EFFECTIVE_DATE_CONFIG.useCurrentDate) {
+                    effectiveDate = new Date();
+                } else {
+                    effectiveDate = new Date(
+                        EFFECTIVE_DATE_CONFIG.specificDate.year,
+                        EFFECTIVE_DATE_CONFIG.specificDate.month - 1, // JavaScript months are 0-indexed
+                        EFFECTIVE_DATE_CONFIG.specificDate.day
+                    );
+                }
+                
+                const formattedDate = effectiveDate.toLocaleDateString(
+                    EFFECTIVE_DATE_CONFIG.format.locale,
+                    EFFECTIVE_DATE_CONFIG.format.options
+                );
+                
+                document.getElementById('current-date').textContent = formattedDate;
 
                 // Calculate reading time
                 const content = document.querySelector('.main-content').textContent;
