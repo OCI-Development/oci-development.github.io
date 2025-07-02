@@ -11,13 +11,13 @@
   "signatories": [
     {
       "id": "oci",
-      "name": "United States",
-      "type": "country",
+      "name": "Orbital Conservatiom Institue",
+      "type": "organization",
       "status": "active",
-      "dateSigned": "2024-03-15",
-      "region": "North America",
-      "flag": "https://flagcdn.com/w80/us.png",
-      "representative": "NASA",
+      "dateSigned": "2025-07-02",
+      "region": "Europe",
+      "flag": "https://flagcdn.com/w80/gb.png",
+      "representative": "OCI Founder",
       "notes": "Primary founding member"
     }
   ]
