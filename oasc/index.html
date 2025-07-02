@@ -1,1 +1,2775 @@
-<!-- Placeholder File -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="https://oci-development.github.io/images/oci-icon-t-white.png" type="image/png">
+        <title>OCI | Orbital Access and Sustainability Charter (OASC)</title>
+        <style>
+            :root {
+                --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+                --font-mono: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+                --primary-color: #005ea5;
+                --primary-dark: #003d75;
+                --text-color: #0b0c0c;
+                --text-secondary: #505a5f;
+                --border-color: #b1b4b6;
+                --background-color: #ffffff;
+                --section-background: #f8f8f8;
+                --highlight-yellow: #005ea5;
+                --link-color: #1d70b8;
+                --link-visited: #4c2c92;
+                --focus-color: #005ea5  ;
+                --error-color: #d4351c;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: var(--font-family);
+                font-size: 19px;
+                line-height: 1.6;
+                color: var(--text-color);
+                margin: 0;
+                padding: 0;
+                background: var(--background-color);
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                text-rendering: optimizeLegibility;
+            }
+
+            .govuk-width-container {
+                max-width: 960px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            /* Header styling inspired by gov.uk but original */
+            .document-header {
+                background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+                color: white;
+                padding: 40px 0;
+                border-bottom: 10px solid var(--primary-dark);
+                text-align: center;
+            }
+
+            .document-header h1 {
+                font-size: 2rem;
+                font-weight: 700;
+                margin: 0 0 15px 0;
+                line-height: 1.1;
+                letter-spacing: -0.5px;
+            }
+
+            .document-header .subtitle {
+                font-size: clamp(18px, 3vw, 24px);
+                font-weight: 300;
+                margin: 0 0 20px 0;
+                opacity: 0.95;
+                line-height: 1.3;
+                color: #c6c6c6;
+                font-style: italic;
+            }
+
+            .document-meta {
+                font-size: clamp(14px, 2vw, 16px);
+                opacity: 0.9;
+                border-top: 1px solid rgba(255,255,255,0.3);
+                padding-top: 15px;
+                margin-top: 15px;
+                line-height: 1.4;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                justify-content: center;
+            }
+
+            .meta-separator {
+                display: inline;
+            }
+
+            /* Navigation */
+            .document-nav {
+                background: var(--section-background);
+                border-bottom: 1px solid var(--border-color);
+                padding: 0;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+            .nav-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                /* padding: 0 20px; */
+                padding: 0px;
+            }
+
+            .nav-toggle {
+                display: none;
+                background: none;
+                border: none;
+                color: var(--text-color);
+                font-size: 24px;
+                cursor: pointer;
+                padding: 10px;
+            }
+
+            .nav-main {
+                display: flex;
+                align-items: center;
+                gap: 30px;
+            }
+
+            .nav-list {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                gap: 0;
+            }
+
+            .nav-list li {
+                margin: 0;
+                position: relative;
+            }
+
+            .nav-link {
+                display: block;
+                padding: 15px 20px;
+                text-decoration: none;
+                color: var(--text-color);
+                font-weight: 600;
+                border-bottom: 5px solid transparent;
+                transition: all 0.2s ease;
+                text-align: center;
+                font-size: clamp(14px, 2.5vw, 16px);
+                white-space: nowrap;
+            }
+
+            .nav-link:hover,
+            .nav-link.active {
+                background: white;
+                border-bottom-color: var(--primary-color);
+                color: var(--primary-color);
+            }
+
+            /* Dropdown for Articles */
+            .nav-dropdown {
+                position: relative;
+            }
+
+            .nav-dropdown-content {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background: white;
+                min-width: 200px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                border: 1px solid var(--border-color);
+                border-radius: 4px;
+                z-index: 1000;
+            }
+
+            .nav-dropdown:hover .nav-dropdown-content {
+                display: block;
+            }
+
+            .nav-dropdown-content .nav-link {
+                border-bottom: none;
+                border-left: 3px solid transparent;
+                padding: 12px 20px;
+                font-size: 14px;
+                text-align: left;
+            }
+
+            .nav-dropdown-content .nav-link:hover,
+            .nav-dropdown-content .nav-link.active {
+                border-left-color: var(--primary-color);
+                background: var(--section-background);
+            }
+
+            /* Table of Contents Sidebar */
+            .toc-toggle {
+                background: var(--primary-color);
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .toc-toggle:hover {
+                background: var(--primary-dark);
+            }
+
+            .toc-sidebar {
+                position: fixed;
+                top: 0;
+                right: -350px;
+                width: 350px;
+                height: 100vh;
+                background: white;
+                border-left: 1px solid var(--border-color);
+                box-shadow: -4px 0 12px rgba(0,0,0,0.1);
+                transition: right 0.3s ease;
+                z-index: 1001;
+                overflow-y: auto;
+            }
+
+            .toc-sidebar.open {
+                right: 0;
+            }
+
+            .toc-header {
+                background: var(--primary-color);
+                color: white;
+                padding: 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .toc-close {
+                background: none;
+                border: none;
+                color: white;
+                font-size: 24px;
+                cursor: pointer;
+            }
+
+            .toc-content {
+                padding: 20px;
+            }
+
+            .toc-section {
+                margin-bottom: 30px;
+            }
+
+            .toc-section h3 {
+                color: var(--primary-color);
+                font-size: 16px;
+                font-weight: 700;
+                margin: 0 0 15px 0;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .toc-list {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .toc-list li {
+                margin-bottom: 8px;
+            }
+
+            .toc-link {
+                display: block;
+                padding: 8px 12px;
+                text-decoration: none;
+                color: var(--text-color);
+                font-size: 14px;
+                border-left: 3px solid transparent;
+                transition: all 0.2s ease;
+            }
+
+            .toc-link:hover,
+            .toc-link.active {
+                background: var(--section-background);
+                border-left-color: var(--primary-color);
+                color: var(--primary-color);
+            }
+
+            .toc-protocol {
+                font-style: italic;
+                color: var(--text-secondary);
+            }
+
+            /* Progress Indicators */
+            .nav-progress {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                font-size: 14px;
+                color: var(--text-secondary);
+            }
+
+            .progress-counter {
+                font-weight: 600;
+                color: var(--primary-color);
+            }
+
+            /* Mobile Navigation */
+            @media (max-width: 1024px) {
+                .nav-toggle {
+                    display: block;
+                }
+
+                .nav-main {
+                    display: none;
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    right: 0;
+                    background: white;
+                    border-top: 1px solid var(--border-color);
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    flex-direction: column;
+                    gap: 0;
+                    padding: 20px 0;
+                }
+
+                .nav-main.open {
+                    display: flex;
+                }
+
+                .nav-list {
+                    flex-direction: column;
+                    width: 100%;
+                }
+
+                .nav-list li {
+                    width: 100%;
+                }
+
+                .nav-link {
+                    text-align: left;
+                    border-bottom: none;
+                    border-left: 5px solid transparent;
+                    padding: 15px 20px;
+                }
+
+                .nav-link:hover,
+                .nav-link.active {
+                    border-left-color: var(--primary-color);
+                    border-bottom: none;
+                }
+
+                .nav-dropdown-content {
+                    position: static;
+                    display: block;
+                    box-shadow: none;
+                    border: none;
+                    background: var(--section-background);
+                    margin-left: 20px;
+                    border-radius: 0;
+                }
+
+                .toc-toggle {
+                    display: none;
+                }
+
+                .toc-sidebar {
+                    width: 100%;
+                    right: -100%;
+                }
+            }
+
+            /* Main content */
+            .main-content {
+                padding: 40px 0;
+            }
+
+            .document-section {
+                background: white;
+                border: 1px solid var(--border-color);
+                margin-bottom: 30px;
+                padding: 0;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+            .section-header {
+                background: var(--section-background);
+                border-bottom: 1px solid var(--border-color);
+                padding: 20px 30px;
+                margin: 0;
+            }
+
+            .section-title {
+                font-size: clamp(24px, 4vw, 36px);
+                font-weight: 700;
+                margin: 0;
+                color: var(--text-color);
+                letter-spacing: -0.3px;
+            }
+
+            .section-content {
+                padding: clamp(20px, 4vw, 30px);
+            }
+
+            /* Typography */
+            .section-content p {
+                margin: 0 0 20px 0;
+                text-align: justify;
+                font-size: clamp(16px, 2.5vw, 19px);
+                line-height: 1.7;
+            }
+
+            .preamble-paragraph {
+                font-style: italic;
+                margin-bottom: 25px;
+                text-indent: clamp(20px, 4vw, 30px);
+                font-size: clamp(17px, 2.8vw, 20px);
+            }
+
+            .preamble-conclusion {
+                background: #f3f2f1;
+                border-left: 5px solid var(--primary-color);
+                padding: clamp(20px, 4vw, 25px);
+                margin: 30px 0 0 0;
+                font-weight: 600;
+                text-align: center;
+                font-size: clamp(16px, 2.5vw, 18px);
+                line-height: 1.6;
+            }
+
+            /* Legislative lists */
+            .provisions-list {
+                list-style: none;
+                counter-reset: provision-counter;
+                padding: 0;
+                margin: 20px 0;
+            }
+
+            .provision-item {
+                counter-increment: provision-counter;
+                margin-bottom: 30px;
+                padding: clamp(15px, 3vw, 20px);
+                background: #fafafa;
+                border-left: 4px solid var(--border-color);
+                position: relative;
+                border-radius: 4px;
+            }
+
+            .provision-item::before {
+                content: "(" counter(provision-counter) ")";
+                font-weight: 700;
+                color: var(--primary-color);
+                position: absolute;
+                left: clamp(-20px, -3vw, -25px);
+                top: clamp(15px, 3vw, 20px);
+                background: white;
+                padding: 5px 10px;
+                border: 2px solid var(--primary-color);
+                border-radius: 4px;
+                font-size: clamp(14px, 2.5vw, 16px);
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+            .provision-content {
+                margin-left: clamp(15px, 3vw, 20px);
+                line-height: 1.7;
+                font-size: clamp(16px, 2.5vw, 19px);
+            }
+
+            /* Principles formatting */
+            .principle-title {
+                font-weight: 700;
+                color: var(--primary-dark);
+                font-size: clamp(18px, 3vw, 20px);
+                margin-bottom: 15px;
+                display: block;
+                letter-spacing: -0.2px;
+            }
+
+            .principle-text {
+                margin: 0;
+                text-align: justify;
+                font-size: clamp(16px, 2.5vw, 19px);
+                line-height: 1.7;
+            }
+
+            /* Interactive elements */
+            .scroll-progress {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: rgba(0, 94, 165, 0.2);
+                z-index: 1001;
+            }
+
+            .progress-bar {
+                height: 100%;
+                background: var(--primary-color);
+                width: 0%;
+                transition: width 0.1s ease;
+            }
+
+            .back-to-top {
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                background: var(--primary-color);
+                color: white;
+                border: none;
+                padding: 15px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: bold;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                opacity: 0;
+                transition: all 0.3s ease;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-size: 14px;
+            }
+
+            .back-to-top.visible {
+                opacity: 1;
+            }
+
+            .back-to-top:hover {
+                background: var(--primary-dark);
+                transform: translateY(-2px);
+            }
+
+            /* Animations */
+            .fade-in {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.6s ease;
+            }
+
+            .fade-in.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* Print styles */
+            @media print {
+                .document-nav,
+                .back-to-top,
+                .scroll-progress {
+                    display: none;
+                }
+                
+                .document-section {
+                    border: 2px solid #000;
+                    break-inside: avoid;
+                    margin-bottom: 20px;
+                }
+                
+                .section-header {
+                    background: #f0f0f0;
+                }
+                
+                body {
+                    font-size: 12pt;
+                    line-height: 1.4;
+                }
+            }
+
+            /* Mobile responsive */
+            @media (max-width: 768px) {
+                body {
+                    font-size: 16px;
+                }
+                
+                .govuk-width-container {
+                    padding: 0 15px;
+                }
+                
+                .document-header {
+                    padding: 30px 0;
+                }
+                
+                .document-section {
+                    margin-bottom: 20px;
+                }
+                
+                .section-header {
+                    padding: 15px 20px;
+                }
+                
+                .provision-item {
+                    margin-left: 15px;
+                    padding: 15px;
+                }
+                
+                .provision-item::before {
+                    position: static;
+                    display: inline-block;
+                    margin-bottom: 10px;
+                    margin-right: 10px;
+                }
+                
+                .provision-content {
+                    margin-left: 0;
+                }
+                
+                .document-meta {
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 4px;
+                }
+                
+                .meta-separator {
+                    display: none;
+                }
+            }
+
+            /* Disabled link styling */
+            .nav-link.disabled,
+            .toc-link.disabled {
+                color: var(--text-secondary);
+                cursor: not-allowed;
+                opacity: 0.6;
+            }
+
+            .nav-link.disabled:hover,
+            .toc-link.disabled:hover {
+                background: none;
+                border-color: transparent;
+                color: var(--text-secondary);
+            }
+
+            /* Tablet responsive */
+            @media (max-width: 1024px) and (min-width: 769px) {
+                .govuk-width-container {
+                    padding: 0 30px;
+                }
+                
+                .nav-link {
+                    padding: 12px 18px;
+                }
+                
+                .section-content {
+                    padding: 25px;
+                }
+            }
+
+            /* Large screen optimizations */
+            @media (min-width: 1200px) {
+                .govuk-width-container {
+                    max-width: 1140px;
+                }
+                
+                body {
+                    font-size: 20px;
+                }
+                
+                .document-header h1 {
+                    font-size: 2rem;
+                }
+                
+                .document-header .subtitle {
+                    font-size: 1em;
+                }
+            }
+
+            /* Focus states for accessibility */
+            .nav-link:focus,
+            .back-to-top:focus {
+                outline: 3px solid var(--focus-color);
+                outline-offset: 0;
+                background: var(--focus-color);
+                color: var(--section-background);
+            }
+
+            /* Additional legislative styling */
+            .citation {
+                font-style: italic;
+                color: var(--text-secondary);
+            }
+
+            .definition {
+                font-weight: bold;
+            }
+
+            .amendment {
+                background: #fff2cc;
+                border-left: 4px solid var(--highlight-yellow);
+                padding: 10px 15px;
+                margin: 15px 0;
+            }
+            footer {
+                background: var(--footer-background, var(--section-background));
+                color: var(--footer-text, var(--text-color));
+                padding: 20px 0;
+                text-align: center;
+            }
+
+            /* Signatories Modal Styles */
+            .modal-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.6);
+                z-index: 2000;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .modal-overlay.open {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 1;
+            }
+
+            .modal-container {
+                background: white;
+                border-radius: 12px;
+                width: 95%;
+                max-width: 1200px;
+                max-height: 90vh;
+                overflow: hidden;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                transform: translateY(20px);
+                transition: transform 0.3s ease;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .modal-overlay.open .modal-container {
+                transform: translateY(0);
+            }
+
+            .modal-header {
+                background: linear-gradient(135deg, var(--primary-color) 0%, #6c5ce7 100%);
+                color: white;
+                padding: 25px 30px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 3px solid var(--primary-dark);
+            }
+
+            .modal-title {
+                font-size: 24px;
+                font-weight: 700;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .modal-close {
+                background: rgba(255, 255, 255, 0.2);
+                border: none;
+                color: white;
+                font-size: 24px;
+                cursor: pointer;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.2s ease;
+            }
+
+            .modal-close:hover {
+                background: rgba(255, 255, 255, 0.3);
+            }
+
+            .modal-body {
+                padding: 0;
+                flex: 1;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .modal-stats {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+                padding: 25px 30px;
+                background: var(--section-background);
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .modal-stat-card {
+                background: white;
+                border: 2px solid var(--border-color);
+                border-radius: 8px;
+                padding: 15px;
+                text-align: center;
+                transition: all 0.2s ease;
+            }
+
+            .modal-stat-card:hover {
+                border-color: #6c5ce7;
+                transform: translateY(-2px);
+            }
+
+            .modal-stat-number {
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: #6c5ce7;
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            .modal-stat-label {
+                font-size: 12px;
+                color: var(--text-secondary);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                font-weight: 600;
+            }
+
+            .modal-filters {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 15px;
+                padding: 20px 30px;
+                background: white;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .modal-filter-group {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .modal-filter-label {
+                font-size: 12px;
+                font-weight: 600;
+                color: var(--text-secondary);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .modal-filter-select {
+                padding: 8px 12px;
+                border: 1px solid var(--border-color);
+                border-radius: 4px;
+                font-size: 14px;
+                background: white;
+                color: var(--text-color);
+                cursor: pointer;
+                min-width: 120px;
+            }
+
+            .modal-filter-select:focus {
+                outline: none;
+                border-color: #6c5ce7;
+                box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+            }
+
+            .modal-search {
+                flex: 1;
+                min-width: 200px;
+            }
+
+            .modal-search-input {
+                width: 100%;
+                padding: 8px 12px;
+                border: 1px solid var(--border-color);
+                border-radius: 4px;
+                font-size: 14px;
+                background: white;
+                color: var(--text-color);
+            }
+
+            .modal-search-input:focus {
+                outline: none;
+                border-color: #6c5ce7;
+                box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+            }
+
+            .modal-content {
+                flex: 1;
+                overflow-y: auto;
+                padding: 20px 30px;
+            }
+
+            .modal-signatories-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+            }
+
+            .modal-signatory-card {
+                background: white;
+                border: 2px solid var(--border-color);
+                border-radius: 8px;
+                padding: 20px;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .modal-signatory-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: linear-gradient(90deg, var(--primary-color), #6c5ce7);
+            }
+
+            .modal-signatory-card:hover {
+                border-color: #6c5ce7;
+                box-shadow: 0 4px 16px rgba(108, 92, 231, 0.15);
+                transform: translateY(-3px);
+                cursor: pointer;
+            }
+
+            .modal-signatory-header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+                gap: 12px;
+            }
+
+            .modal-signatory-flag {
+                width: 40px;
+                height: 27px;
+                border-radius: 3px;
+                border: 1px solid var(--border-color);
+                object-fit: cover;
+                flex-shrink: 0;
+            }
+
+            .modal-signatory-name {
+                font-size: 16px;
+                font-weight: 700;
+                color: var(--primary-color);
+                margin: 0;
+                line-height: 1.2;
+            }
+
+            .modal-signatory-details {
+                margin-bottom: 12px;
+            }
+
+            .modal-signatory-detail {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 6px;
+                font-size: 14px;
+            }
+
+            .modal-detail-label {
+                font-weight: 600;
+                color: var(--text-secondary);
+            }
+
+            .modal-detail-value {
+                color: var(--text-color);
+                text-align: right;
+            }
+
+            .modal-signatory-status {
+                display: inline-block;
+                padding: 3px 8px;
+                border-radius: 12px;
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .modal-status-active {
+                background: #e8f5e8;
+                color: var(--success-color);
+            }
+
+            .modal-status-pending {
+                background: #fff3cd;
+                color: var(--warning-color);
+            }
+
+            .modal-status-observer {
+                background: #e3f2fd;
+                color: var(--link-color);
+            }
+
+            .modal-no-results {
+                text-align: center;
+                color: var(--text-secondary);
+                font-style: italic;
+                padding: 40px;
+                grid-column: 1 / -1;
+            }
+
+            .signatories-link {
+                /* Override the special styling to match regular nav-links */
+                color: var(--text-color) !important;
+                border-bottom: 5px solid transparent !important;
+                background: transparent !important;
+                text-decoration: none !important;
+            }
+
+            .signatories-link:hover {
+                background: white !important;
+                border-bottom-color: var(--primary-color) !important;
+                color: var(--primary-color) !important;
+                text-decoration: none !important;
+            }
+
+            /* Custom Scrollbars */
+            .modal-content::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .modal-content::-webkit-scrollbar-track {
+                background: var(--section-background);
+                border-radius: 4px;
+            }
+
+            .modal-content::-webkit-scrollbar-thumb {
+                background: var(--border-color);
+                border-radius: 4px;
+                transition: background 0.2s ease;
+            }
+
+            .modal-content::-webkit-scrollbar-thumb:hover {
+                background: var(--primary-color);
+            }
+
+            /* Member Detail Modal */
+            .member-detail-modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                z-index: 2100;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .member-detail-modal.open {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 1;
+            }
+
+            .member-detail-container {
+                background: white;
+                border-radius: 16px;
+                width: 90%;
+                max-width: 600px;
+                max-height: 85vh;
+                overflow: hidden;
+                box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+                transform: translateY(30px) scale(0.95);
+                transition: transform 0.3s ease;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .member-detail-modal.open .member-detail-container {
+                transform: translateY(0) scale(1);
+            }
+
+            .member-detail-header {
+                background: linear-gradient(135deg, var(--primary-color) 0%, #6c5ce7 100%);
+                color: white;
+                padding: 30px;
+                text-align: center;
+                position: relative;
+            }
+
+            .member-detail-flag {
+                width: 80px;
+                height: 54px;
+                border-radius: 6px;
+                border: 3px solid rgba(255, 255, 255, 0.3);
+                object-fit: cover;
+                margin-bottom: 15px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            }
+
+            .member-detail-name {
+                font-size: 1.8rem;
+                font-weight: 700;
+                margin-bottom: 8px;
+                line-height: 1.2;
+            }
+
+            .member-detail-type {
+                font-size: 1rem;
+                opacity: 0.9;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-weight: 600;
+            }
+
+            .member-detail-close {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: rgba(255, 255, 255, 0.2);
+                border: none;
+                color: white;
+                font-size: 24px;
+                cursor: pointer;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.2s ease;
+            }
+
+            .member-detail-close:hover {
+                background: rgba(255, 255, 255, 0.3);
+            }
+
+            .member-detail-body {
+                padding: 0;
+                flex: 1;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .member-detail-body::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .member-detail-body::-webkit-scrollbar-track {
+                background: var(--section-background);
+            }
+
+            .member-detail-body::-webkit-scrollbar-thumb {
+                background: var(--border-color);
+                border-radius: 3px;
+            }
+
+            .member-detail-body::-webkit-scrollbar-thumb:hover {
+                background: var(--primary-color);
+            }
+
+            .member-detail-status-bar {
+                background: var(--section-background);
+                padding: 20px 30px;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .member-status-badge {
+                display: inline-block;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 14px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .member-detail-info {
+                padding: 30px;
+            }
+
+            .info-section {
+                margin-bottom: 30px;
+            }
+
+            .info-section:last-child {
+                margin-bottom: 0;
+            }
+
+            .info-section-title {
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: var(--primary-color);
+                margin-bottom: 15px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                border-bottom: 2px solid var(--section-background);
+                padding-bottom: 8px;
+            }
+
+            .info-grid {
+                display: grid;
+                grid-template-columns: 1fr 2fr;
+                gap: 12px;
+                margin-bottom: 15px;
+            }
+
+            .info-label {
+                font-weight: 600;
+                color: var(--text-secondary);
+                font-size: 0.9rem;
+            }
+
+            .info-value {
+                color: var(--text-color);
+                font-size: 0.9rem;
+            }
+
+            .commitments-list {
+                list-style: none;
+                padding: 0;
+            }
+
+            .commitments-list li {
+                padding: 8px 0;
+                border-bottom: 1px solid var(--section-background);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .commitments-list li:last-child {
+                border-bottom: none;
+            }
+
+            .commitment-name {
+                font-weight: 600;
+                color: var(--text-color);
+            }
+
+            .commitment-status {
+                padding: 3px 8px;
+                border-radius: 10px;
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+            }
+
+            .commitment-status.implemented {
+                background: #e8f5e8;
+                color: var(--success-color);
+            }
+
+            .commitment-status.pending {
+                background: #fff3cd;
+                color: var(--warning-color);
+            }
+
+            .commitment-status.planning {
+                background: #e3f2fd;
+                color: var(--link-color);
+            }
+
+            /* Mobile responsive for modal */
+            @media (max-width: 768px) {
+                .modal-container {
+                    width: 98%;
+                    max-height: 95vh;
+                }
+
+                .modal-header {
+                    padding: 20px;
+                }
+
+                .modal-title {
+                    font-size: 20px;
+                }
+
+                .modal-stats {
+                    grid-template-columns: repeat(2, 1fr);
+                    padding: 20px;
+                }
+
+                .modal-filters {
+                    flex-direction: column;
+                    padding: 15px 20px;
+                }
+
+                .modal-content {
+                    padding: 15px 20px;
+                }
+
+                .modal-signatories-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .member-detail-container {
+                    width: 95%;
+                    max-height: 90vh;
+                }
+
+                .member-detail-header {
+                    padding: 20px;
+                }
+
+                .member-detail-name {
+                    font-size: 1.5rem;
+                }
+
+                .member-detail-info {
+                    padding: 20px;
+                }
+
+                .info-grid {
+                    grid-template-columns: 1fr;
+                    gap: 8px;
+                }
+
+                .info-label {
+                    font-weight: 700;
+                    color: var(--primary-color);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="scroll-progress">
+            <div class="progress-bar"></div>
+        </div>
+
+        <header class="document-header">
+            <div class="govuk-width-container">
+                <img src="https://oci-development.github.io/images/oci-logo-t-white.png" alt="OCI Logo" style="height: 150px; width: auto; margin-top: -0.55rem;">
+                <h1>
+                    Orbital Access and Sustainability Charter (OASC)
+                </h1>
+                <p class="subtitle">
+                    Voluntary Multilateral Charter for Ensuring Sustainable Space Operations
+                    <br>
+                    <div style="font-size: 15px; color: #000000; padding: 1em; background-color: #cd1a1ab9; border-radius: 10px; font-weight: bolder;">
+                        THIS DOCUMENT IS STILL IN DEVELOPMENT<br>
+                        AS SUCH ANY INFORMATION DISPLAYED IS NOT CURRENTLY BINDING
+                    </div>
+                </p>
+                <div class="document-meta">
+                    <span>Effective Date: <span id="current-date"></span></span>
+                    <span class="meta-separator"> | </span>
+                    <span>Version: 1.0</span>
+                    <span class="meta-separator"> | </span>
+                    <span>Status: Draft</span>
+                    <span class="meta-separator"> | </span>
+                    <span>Estimated Reading Time: <span id="reading-time">0</span> minutes</span>
+                </div>
+            </div>
+        </header>
+
+        <nav class="document-nav">
+            <div class="govuk-width-container">
+                <div class="nav-container">
+                    <button class="nav-toggle" onclick="toggleMobileNav()">☰</button>
+                    
+                    <div class="nav-main" id="navMain">
+                        <ul class="nav-list">
+                            <li>
+                                <a href="#preamble" class="nav-link active" data-section="preamble">Preamble</a>
+                            </li>
+                            
+                            <li class="nav-dropdown">
+                                <a href="#articles" class="nav-link">Articles ▼</a>
+                                <div class="nav-dropdown-content">
+                                    <a href="#article1" class="nav-link" data-section="article1">
+                                        Article I - Purpose & Scope
+                                    </a>
+                                    <a href="#article2" class="nav-link" data-section="article2">
+                                        Article II - Guiding Principles
+                                    </a>
+                                    <a href="#article3" class="nav-link" data-section="article3">
+                                        Article III - Subscription & Commitment
+                                    </a>
+                                    <a href="#article4" class="nav-link" data-section="article4">
+                                        Article IV - Protocols & Implementing Instruments
+                                    </a>
+                                    <a href="#article5" class="nav-link" data-section="article5">
+                                        Article V - Secretariat & Administration
+                                    </a>
+                                    <a href="#article6" class="nav-link" data-section="article6">
+                                        Article VI - Compliance & Accountability
+                                    </a>
+                                    <a href="#article7" class="nav-link" data-section="article7">
+                                        Article VII - Amendments & Termination
+                                    </a>
+                                    <a href="#article8" class="nav-link" data-section="article8">
+                                        Article VIII - Entry into Force
+                                    </a>
+                                </div>
+                            </li>
+                            
+                            <li class="nav-dropdown">
+                                <a href="#protocols" class="nav-link">Protocols ▼</a>
+                                <div class="nav-dropdown-content">
+                                    <a href="pa.html" class="nav-link toc-protocol">
+                                        a. Orbital Launch Harmonisation (OLH)
+                                    </a>
+                                    <a href="#" class="nav-link disabled toc-protocol">
+                                        b. Launch Coordination (Coming Soon)
+                                    </a>
+                                    <a href="#" class="nav-link disabled toc-protocol">
+                                        c. Data Sharing Standards (Coming Soon)
+                                    </a>
+                                    <a href="#" class="nav-link disabled toc-protocol">
+                                        d. Emergency Response (Coming Soon)
+                                    </a>
+                                </div>
+                            </li>
+                            
+                            <li>
+                                <a href="javascript:void(0)" class="nav-link signatories-link" onclick="openSignatoriesModal()">Registry</a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="nav-progress">
+                        <button class="toc-toggle" onclick="toggleTOC()">
+                            📋 Contents
+                        </button>
+                        <span class="progress-counter">Section <span id="current-section">1</span> of <span id="total-sections">2</span></span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Table of Contents Sidebar -->
+        <div class="toc-sidebar" id="tocSidebar">
+            <div class="toc-header">
+                <h2>Table of Contents</h2>
+                <button class="toc-close" onclick="toggleTOC()">×</button>
+            </div>
+            <div class="toc-content">
+                <div class="toc-section">
+                    <h3>Charter Foundation</h3>
+                    <ul class="toc-list">
+                        <li><a href="#preamble" class="toc-link" data-section="preamble">Preamble</a></li>
+                    </ul>
+                </div>
+                
+                <div class="toc-section">
+                    <h3>Core Articles</h3>
+                    <ul class="toc-list">
+                        <li>
+                            <a href="#article1" class="toc-link" data-section="article1">
+                                Article I - Purpose and Scope
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#article2" class="toc-link" data-section="article2">
+                                Article II - Guiding Principles
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#article3" class="toc-link" data-section="article3">
+                                Article III - Subscription & Commitment
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#article4" class="toc-link" data-section="article4">
+                                Article IV - Protocols & Implementing Instruments
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#article5" class="toc-link" data-section="article5">
+                                Article V - Secretariat & Administration
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#article6" class="toc-link" data-section="article6">
+                                Article VI - Compliance & Accountability
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#article7" class="toc-link" data-section="article7">
+                                Article VII - Amendments & Termination
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#article8" class="toc-link" data-section="article8">
+                                Article VIII - Entry into Force
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="toc-section">
+                    <h3>Supporting Protocols</h3>
+                    <ul class="toc-list">
+                        <li>
+                            <span class="toc-link disabled toc-protocol">Protocol A: Orbital Debris Mitigation Standards (Coming Soon)</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled toc-protocol">Protocol B: Launch Coordination Procedures (Coming Soon)</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled toc-protocol">Protocol C: Data Sharing Framework (Coming Soon)</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled toc-protocol">Protocol D: Emergency Response Procedures (Coming Soon)</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled toc-protocol">Protocol E: Sustainability Metrics (Coming Soon)</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="toc-section">
+                    <h3>Implementation Resources</h3>
+                    <ul class="toc-list">
+                        <li>
+                            <span class="toc-link disabled">Annex I: Definitions and Terms (Coming Soon)</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled">Annex II: Technical Specifications (Coming Soon)</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled">Annex III: Reporting Templates (Coming Soon)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <div class="govuk-width-container">
+                <section id="preamble" class="document-section fade-in">
+                    <header class="section-header">
+                        <h2 class="section-title">PREAMBLE</h2>
+                    </header>
+                    <div class="section-content">
+                        <p class="preamble-paragraph">
+                            Recognizing that Earth's orbital environment constitutes a finite, shared, and increasingly critical global commons essential for telecommunications, Earth observation, navigation, scientific research, and sustainable development across all nations and peoples;
+                        </p>
+                        <p class="preamble-paragraph">
+                            Acknowledging the accelerating proliferation of space objects, the exponential growth in orbital debris, and the heightened risks of cascade collisions that threaten the long-term viability of orbital space for all humanity;
+                        </p>
+                        <p class="preamble-paragraph">
+                            Recognizing the inadequacy of existing regulatory frameworks to address the transnational, multilateral, and intergenerational challenges posed by current orbital utilization patterns and the urgent need for coordinated, science-based governance mechanisms;
+                        </p>
+                        <p class="preamble-paragraph">
+                            Affirming that orbital sustainability is not merely a technical challenge but a fundamental prerequisite for global security, economic stability, climate monitoring capabilities, and equitable access to space-based services for present and future generations;
+                        </p>
+                        <p class="preamble-paragraph">
+                            Committed to establishing transparency, accountability, and cooperative stewardship as the foundational principles governing all orbital activities;
+                        </p>
+                        <div class="preamble-conclusion">
+                            <p>The undersigned parties hereby adopt this <strong>Orbital Access and Sustainability Charter (OASC)</strong> to establish a comprehensive, scientifically-informed, and legally-principled framework for the responsible, equitable, and sustainable utilization of Earth's orbital environment.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="article1" class="document-section fade-in">
+                    <header class="section-header">
+                        <h2 class="section-title">ARTICLE I - PURPOSE AND SCOPE</h2>
+                    </header>
+                    <div class="section-content">
+                        <ol class="provisions-list">
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <strong>Primary Purpose:</strong> The OASC establishes a <span class="definition">comprehensive voluntary framework</span> supported by transparent accountability mechanisms, independent scientific oversight, and enforceable commitment structures designed to ensure the sustainable, equitable, and coordinated utilization of all Earth orbital regimes, including Low Earth Orbit (LEO), Medium Earth Orbit (MEO), Geostationary Earth Orbit (GEO), Highly Elliptical Orbits (HEO), and all associated transitional spaces.
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <strong>Framework Authority:</strong> This Charter serves as the <span class="definition">supreme governing instrument</span> for all protocols, procedures, technical standards, and implementing mechanisms developed under its authority, establishing the legal and operational foundation for coordinated orbital governance.
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <strong>Scope of Application:</strong> This Charter applies comprehensively to:
+                                    <ol type="a">
+                                        <li>All subscribing sovereign states and their space agencies</li>
+                                        <li>Intergovernmental and international organizations engaged in orbital activities</li>
+                                        <li>Commercial entities, non-profit organizations, and academic institutions formally endorsed by subscribing parties</li>
+                                        <li>All spacecraft, satellites, launch vehicles, and orbital infrastructure operated by or on behalf of subscribing parties</li>
+                                        <li>All orbital debris and space objects originating from subscribing parties' activities</li>
+                                    </ol>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <strong>Complementary Relationship:</strong> The OASC is designed to complement and enhance existing international space law, including the Outer Space Treaty, while addressing governance gaps through innovative voluntary mechanisms and multilateral coordination protocols.
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="article2" class="document-section fade-in">
+                    <header class="section-header">
+                        <h2 class="section-title">ARTICLE II - GUIDING PRINCIPLES</h2>
+                    </header>
+                    <div class="section-content">
+                        <ol class="provisions-list">
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Equitable Access and Non-Discrimination</span>
+                                    <p class="principle-text">
+                                        Earth's orbital environment constitutes a shared heritage of humanity, accessible to all nations regardless of their current space capabilities, economic status, or technological development. Subscribing parties commit to preventing the monopolization of orbital resources, ensuring non-discriminatory access to orbital slots and frequencies, and actively supporting developing nations' legitimate space aspirations through capacity-building, technology transfer, and collaborative frameworks. No party shall engage in practices that systematically exclude or disadvantage other nations from orbital participation.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Intergenerational Sustainability and Environmental Stewardship</span>
+                                    <p class="principle-text">
+                                        All orbital activities must be conducted with paramount consideration for long-term environmental preservation and the rights of future generations to a safe, accessible orbital environment. This principle mandates comprehensive debris mitigation, collision avoidance protocols, end-of-life disposal planning, and the prevention of cascade collision scenarios that could render entire orbital regions unusable. Parties shall prioritize orbital environmental protection over short-term commercial or strategic gains.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Transparency, Data Sharing, and Information Openness</span>
+                                    <p class="principle-text">
+                                        Effective orbital governance requires unprecedented levels of transparency and information sharing among all stakeholders. Subscribing parties commit to timely, accurate, and comprehensive data exchange regarding satellite trajectories, launch schedules, maneuver plans, collision risks, and debris tracking. This information sharing shall be conducted through standardized protocols that balance operational transparency with legitimate national security and commercial confidentiality concerns, establishing clear guidelines for data classification and sharing thresholds.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Coordinated Launch Practices and Resource Optimization</span>
+                                    <p class="principle-text">
+                                        Parties shall adopt coordinated launch strategies that maximize orbital efficiency while minimizing environmental impact. This includes collaborative scheduling to prevent launch window conflicts, coordination of constellation deployments to avoid orbital congestion, responsible utilization of orbital slots through international coordination mechanisms, and the prioritization of multi-mission and rideshare opportunities. Unnecessary or redundant launches that could be consolidated through international cooperation shall be avoided.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Graduated Accountability and Responsive Governance</span>
+                                    <p class="principle-text">
+                                        Effective voluntary governance requires robust accountability mechanisms proportional to the severity and impact of non-compliance. Parties accept a graduated framework of consequences including diplomatic engagement, public transparency requirements, capacity-building obligations, and in severe cases, temporal restrictions on orbital privileges. All accountability measures shall be applied fairly, transparently, and with due process, emphasizing restoration and compliance rather than punishment. Disputes shall be resolved through structured mediation, scientific assessment, and multilateral dialogue.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Scientific Evidence-Based Decision Making</span>
+                                    <p class="principle-text">
+                                        All policies, protocols, and governance decisions under this Charter shall be grounded in rigorous scientific evidence, peer-reviewed research, and independent expert assessment. Subscribing parties commit to supporting and respecting scientific consensus on orbital sustainability issues, ensuring that governance mechanisms evolve in response to new scientific understanding, and maintaining institutional separation between political interests and scientific assessment processes.
+                                    </p>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="article3" class="document-section fade-in">
+                    <header class="section-header">
+                        <h2 class="section-title">ARTICLE III - COMMITMENT AND SUBSCRIPTION</h2>
+                    </header>
+                    <div class="section-content">
+                        <ol class="provisions-list">
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <strong>Subscription Mechanism:</strong> Parties formalize their commitment to this Charter and all currently operative Protocols through execution of a <strong>Unified Commitment Accord</strong>, which constitutes a binding international commitment subject to their respective constitutional and legal processes. The Accord establishes both the party's obligation to implement Charter principles and their entitlement to participate in Charter governance mechanisms.
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <strong>Dynamic Consent Framework:</strong> Future Protocols or Charter amendments become binding upon subscribing parties only following explicit reaffirmation through an updated Commitment Accord, executed after a mandatory public consultation period of no less than 120 days. This ensures that evolving commitments reflect genuine, informed consent rather than inadvertent obligation expansion.
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <strong>Public Registry and Transparency:</strong> All signatories are listed in a comprehensive, publicly accessible <strong>OASC Registry</strong> maintained by the Secretariat, displaying:
+                                    <ol type="a">
+                                        <li>Party name, category, and subscription date</li>
+                                        <li>Current Protocol commitments and implementation status</li>
+                                        <li>Compliance history and any accountability actions</li>
+                                        <li>Voluntary self-reporting on orbital activities and sustainability measures</li>
+                                        <li>Capacity-building needs and cooperation opportunities</li>
+                                    </ol>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <strong>Commitment Accord Contents:</strong> Each executed Commitment Accord must include:
+                                    <ol type="a">
+                                        <li>Full legal name and governmental authority of the subscribing party</li>
+                                        <li>Explicit acknowledgment and acceptance of all Charter principles</li>
+                                        <li>Commitment to comply with all Protocols in force at the time of signature</li>
+                                        <li>Consent to the Charter's governance, review, and accountability mechanisms</li>
+                                        <li>Designation of responsible national points of contact for Charter implementation</li>
+                                        <li>Commitment to transparency obligations and data sharing requirements</li>
+                                        <li>Acceptance of international peer accountability and review processes</li>
+                                    </ol>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <strong>Subscription Categories:</strong> The Charter recognizes differentiated subscription categories to accommodate varying national capacities and roles:
+                                    <ol type="a">
+                                        <li><strong>Full Subscribers:</strong> Nations or entities with active orbital programs bearing full Charter obligations and voting rights</li>
+                                        <li><strong>Aspiring Subscribers:</strong> Developing space nations receiving capacity-building support with graduated obligation schedules</li>
+                                        <li><strong>Observer Subscribers:</strong> Non-space entities committed to Charter principles with consultation rights but limited voting authority</li>
+                                        <li><strong>Organizational Subscribers:</strong> Intergovernmental organizations and industry associations representing collective commitments</li>
+                                    </ol>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="article4" class="document-section fade-in">
+                    <header class="section-header">
+                        <h2 class="section-title">ARTICLE IV - PROTOCOLS AND IMPLEMENTING INSTRUMENTS</h2>
+                    </header>
+                    <div class="section-content">
+                        <ol class="provisions-list">
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <strong></strong>Protocol Authority and Scope:</strong> Protocols constitute detailed implementing instruments that operationalize Charter principles through specific, measurable commitments and procedures covering critical domains of orbital governance, including but not limited to:
+                                    <ol type="a">
+                                        <li><strong>Orbital Debris Mitigation and Remediation Standards</strong> (debris prevention, end-of-life disposal, active debris removal)</li>
+                                        <li><strong>Launch Coordination and Trajectory Harmonization</strong> (launch window coordination, corridor management, collision avoidance)</li>
+                                        <li><strong>Space Traffic Management and Situational Awareness</strong> (tracking systems, data sharing, maneuver coordination)</li>
+                                        <li><strong>Orbital Resource Allocation and Registry Protocols</strong> (frequency coordination, slot management, interference prevention)</li>
+                                        <li><strong>Emergency Response and Crisis Management</strong> (incident reporting, coordinated response, recovery procedures)</li>
+                                        <li><strong>Sustainability Assessment and Environmental Monitoring</strong> (impact evaluation, environmental accounting, restoration requirements)</li>
+                                        <li><strong>Capacity Building and Technology Transfer</strong> (developing nation support, technical assistance, knowledge sharing)</li>
+                                    </ol>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <strong>Protocol Development Process:</strong> All Protocols must undergo a rigorous, transparent development process ensuring scientific validity and stakeholder input:
+                                    <ol type="a">
+                                        <li><strong>Initiation:</strong> Protocols may be proposed by any subscribing party, the Secretariat, or the OSSAG following identification of governance gaps or emerging challenges</li>
+                                        <li><strong>Expert Working Groups:</strong> Proposed Protocols are developed by multidisciplinary working groups including technical experts, legal specialists, industry representatives, and affected stakeholder communities</li>
+                                        <li><strong>Scientific Assessment:</strong> The OSSAG conducts comprehensive scientific review, including environmental impact assessment, technical feasibility analysis, and sustainability evaluation</li>
+                                        <li><strong>Public Consultation:</strong> Draft Protocols undergo mandatory public consultation periods allowing input from civil society, industry, and non-subscribing nations</li>
+                                        <li><strong>Peer Review:</strong> Final Protocols are subject to international peer review by independent experts and similar governance bodies</li>
+                                        <li><strong>Adoption:</strong> Protocols are adopted through updated Commitment Accords following the procedures established in Article VI</li>
+                                    </ol>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <strong>Protocol Structure and Components:</strong> Each Protocol must contain standardized elements ensuring clarity, enforceability, and measurability:
+                                    <ol type="a">
+                                        <li>Clear objectives and performance indicators</li>
+                                        <li>Specific obligations for different categories of subscribers</li>
+                                        <li>Implementation timelines and milestones</li>
+                                        <li>Monitoring, reporting, and verification requirements</li>
+                                        <li>Technical specifications and operational procedures</li>
+                                        <li>Compliance assessment criteria and accountability measures</li>
+                                        <li>Capacity-building provisions for developing space nations</li>
+                                        <li>Review and amendment procedures</li>
+                                    </ol>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <strong>Implementation Support Mechanisms:</strong> The Charter framework provides comprehensive support for Protocol implementation through:
+                                    <ol type="a">
+                                        <li>Technical assistance programs coordinated by the Secretariat</li>
+                                        <li>Capacity-building partnerships between developed and developing space nations</li>
+                                        <li>Technology transfer facilitation and intellectual property frameworks</li>
+                                        <li>Financial mechanisms for supporting compliance in resource-constrained environments</li>
+                                        <li>Training programs and professional development opportunities</li>
+                                        <li>Information sharing platforms and best practice exchanges</li>
+                                    </ol>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="article5" class="document-section fade-in">
+                    <header class="section-header">
+                        <h2 class="section-title">ARTICLE V - GOVERNANCE STRUCTURE</h2>
+                    </header>
+                    <div class="section-content">
+                        <ol class="provisions-list">
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">OASC Secretariat: Administrative and Coordination Authority</span>
+                                    <p class="principle-text">
+                                        <ol type="a">
+                                            <li>
+                                                <strong>Institutional Structure:</strong> The Secretariat operates as a permanent, professionally staffed international organization with rotating leadership selected through consensus among subscribing parties, ensuring geographic representation and technical expertise while maintaining political neutrality and operational independence.
+                                            </li>
+                                            <li>
+                                                <strong>Core Responsibilities:</strong>
+                                                <ol type="1">
+                                                    <li><strong>Registry Administration:</strong> Maintenance of comprehensive, real-time databases of subscribers, Protocol commitments, compliance status, and orbital activities</li>
+                                                    <li><strong>Coordination Services:</strong> Facilitation of inter-party communication, conflict mediation, and collaborative project development</li>
+                                                    <li><strong>Governance Support:</strong> Organization of Charter forums, voting administration, documentation management, and decision implementation</li>
+                                                    <li><strong>Information Management:</strong> Publication of compliance reports, scientific assessments, best practice compilations, and public accountability documents</li>
+                                                    <li><strong>Capacity Building:</strong> Coordination of technical assistance programs, training initiatives, and knowledge transfer mechanisms</li>
+                                                    <li><strong>External Relations:</strong> Liaison with non-subscribing nations, international organizations, industry groups, and civil society stakeholders</li>
+                                                </ol>
+                                            </li>
+                                            <li>
+                                                <strong>Operational Principles:</strong> The Secretariat operates under strict neutrality, transparency, and accountability standards, with all decisions subject to subscriber oversight and regular performance review.
+                                            </li>
+                                        </ol>
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Orbital Sustainability Scientific Advisory Group (OSSAG): Independent Expert Assessment</span>
+                                    <p class="principle-text">
+                                        <ol type="a">
+                                            <li>
+                                                <strong>Composition and Selection:</strong> OSSAG comprises internationally recognized experts in orbital mechanics, space debris, environmental science, space law, and related disciplines, selected through peer nomination and review processes ensuring geographic diversity, institutional independence, and freedom from conflicts of interest.
+                                            </li>
+                                            <li>
+                                                <strong>Primary Functions:</strong>
+                                                <ol type="1">
+                                                    <li><strong>Protocol Assessment:</strong> Comprehensive scientific review of proposed Protocols and amendments, including technical feasibility analysis, environmental impact assessment, and long-term sustainability evaluation</li>
+                                                    <li><strong>Research and Analysis:</strong> Publication of evidence-based reports on orbital sustainability challenges, emerging technologies, and governance innovation</li>
+                                                    <li><strong>Early Warning:</strong> Identification and notification of emerging threats to orbital sustainability, including potential cascade collision scenarios and environmental degradation trends</li>
+                                                    <li><strong>Compliance Monitoring:</strong> Technical assessment of subscriber compliance with scientific standards and Protocol requirements</li>
+                                                    <li><strong>Innovation Support:</strong> Evaluation of new technologies and approaches for enhancing orbital sustainability and supporting Protocol objectives</li>
+                                                </ol>
+                                            </li>
+                                            <li>
+                                                <strong>Operational Independence:</strong> OSSAG maintains complete scientific independence from political influence, with secured funding, autonomous research agenda-setting, and public reporting responsibilities that cannot be suppressed or modified by subscribing parties.
+                                            </li>
+                                        </ol>
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Charter Assembly: Democratic Governance and Decision-Making</span>
+                                    <p class="principle-text">
+                                        <ol type="a">
+                                            <li>
+                                                <strong>Composition:</strong> The Charter Assembly comprises official representatives from all subscribing parties, with voting weights determined by subscription category and calculated to balance sovereign equality with operational responsibility.
+                                            </li>
+                                            <li>
+                                                <strong>Authority and Functions:</strong>
+                                                <ol type="1">
+                                                    <li>Adoption of new Protocols and Charter amendments</li>
+                                                    <li>Oversight of Secretariat operations and budget approval</li>
+                                                    <li>Selection of OSSAG members and Secretariat leadership</li>
+                                                    <li>Resolution of inter-party disputes and accountability determinations</li>
+                                                    <li>Strategic planning and priority setting for Charter implementation</li>
+                                                </ol>
+                                            </li>
+                                            <li>
+                                                <strong>Meeting Schedule:</strong> The Assembly convenes annually in regular session, with extraordinary sessions convened as needed for urgent matters or upon request of one-third of subscribing parties.
+                                            </li>
+                                        </ol>
+                                    </p>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="article6" class="document-section fade-in">
+                    <header class="section-header">
+                        <h2 class="section-title">ARTICLE VI - AMENDMENT AND REVIEW PROCESS</h2>
+                    </header>
+                    <div class="section-content">
+                        <ol class="provisions-list">
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Charter Amendment Procedures: Safeguarding Core Principles</span>
+                                    <p class="principle-text">
+                                        <ol type="a">
+                                            <li>
+                                                <strong>Amendment Threshold Requirements:</strong> Charter amendments require extraordinary consensus reflecting the document's foundational importance:
+                                                <ol type="1">
+                                                    <li>Two-thirds majority of all full subscribing parties by vote</li>
+                                                    <li>Majority support from at least one sovereign subscriber in each major geographic region (Americas, Europe, Asia-Pacific, Africa, Middle East)</li>
+                                                    <li>Unanimous approval from the five largest space-faring nations among subscribers</li>
+                                                    <li>Positive scientific assessment from OSSAG confirming consistency with sustainability principles</li>
+                                                    <li>Completion of 180-day public consultation period with civil society input</li>
+                                                </ol>
+                                            </li>
+                                            <li>
+                                                <strong>Mission Protection Clause:</strong> No amendment may weaken, remove, or circumvent the Charter's fundamental commitments to:
+                                                <ol type="1">
+                                                    <li>Equitable access to orbital space for all nations</li>
+                                                    <li>Long-term sustainability and environmental protection</li>
+                                                    <li>Transparency and non-discriminatory participation</li>
+                                                    <li>Scientific evidence-based governance</li>
+                                                    <li>Graduated accountability and due process protections</li>
+                                                </ol>
+                                            </li>
+                                            <li>
+                                                <strong>Emergency Amendment Procedures:</strong> In cases of urgent threats to orbital sustainability, expedited amendment procedures may be invoked with unanimous OSSAG concurrence and three-quarters majority of full subscribers.
+                                            </li>
+                                        </ol>
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Protocol Development and Amendment Framework</span>
+                                    <p class="principle-text">
+                                        <ol type="a">
+                                            <li>
+                                                <strong>Proposal and Initiation:</strong> Protocol amendments may be initiated by:
+                                                <ol type="1">
+                                                    <li>Any full subscribing party through formal proposal submission</li>
+                                                    <li>The Secretariat based on implementation experience or emerging needs</li>
+                                                    <li>OSSAG recommendations following scientific assessment</li>
+                                                    <li>Petition by at least 10% of subscribing parties</li>
+                                                    <li>Industry or civil society proposals endorsed by at least three subscribing parties</li>
+                                                </ol>
+                                            </li>
+                                            <li>
+                                                <strong>Review and Assessment Process:</strong>
+                                                <ol type="1">
+                                                    <li><strong>Technical Review:</strong> OSSAG conducts comprehensive scientific and technical assessment within 90 days</li>
+                                                    <li><strong>Stakeholder Consultation:</strong> 120-day public consultation period with mandatory consideration of input</li>
+                                                    <li><strong>Legal Review:</strong> Assessment of consistency with Charter principles and international law</li>
+                                                    <li><strong>Impact Assessment:</strong> Analysis of implementation costs, capacity requirements, and differential impacts on developing space nations</li>
+                                                </ol>
+                                            </li>
+                                            <li>
+                                                <strong>Adoption Requirements:</strong>
+                                                <ol type="1">
+                                                    <li>Two-thirds majority approval by Charter Assembly</li>
+                                                    <li>Positive OSSAG scientific assessment</li>
+                                                    <li>Implementation plan addressing capacity-building needs</li>
+                                                    <li>Commitment to provide technical assistance for developing space nations</li>
+                                                    <li>Entry into force only upon ratification via updated Commitment Accords within 180 days</li>
+                                                </ol>
+                                            </li>
+                                        </ol>
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Institutional Review and Adaptation Mechanisms</span>
+                                    <p class="principle-text">
+                                        <ol type="a">
+                                            <li>
+                                                <strong>Annual Charter Assembly:</strong> Comprehensive annual gathering hosted by the Secretariat serving multiple functions:
+                                                <ol type="1">
+                                                    <li><strong>Protocol Review:</strong> Assessment of existing Protocol effectiveness and proposals for improvements</li>
+                                                    <li><strong>Implementation Evaluation:</strong> Review of subscriber compliance, best practices, and implementation challenges</li>
+                                                    <li><strong>Scientific Updates:</strong> Presentation of OSSAG findings and recommendations for governance adaptation</li>
+                                                    <li><strong>Capacity Building:</strong> Coordination of technical assistance programs and resource sharing initiatives</li>
+                                                    <li><strong>Future Planning:</strong> Strategic planning for emerging challenges and technology developments</li>
+                                                </ol>
+                                            </li>
+                                            <li>
+                                                <strong>Quinquennial Charter Review:</strong> Every five years, comprehensive assessment of Charter effectiveness with authority to recommend structural reforms and governance innovations.
+                                            </li>
+                                            <li>
+                                                <strong>Emergency Procedures:</strong> Mechanisms for rapid response to orbital crises, including temporary Protocol suspension, emergency coordination protocols, and crisis management authorities.
+                                            </li>
+                                        </ol>
+                                    </p>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="article7" class="document-section fade-in">
+                    <header class="section-header">
+                        <h2 class="section-title">ARTICLE VII - ACCOUNTABILITY AND DISPUTES</h2>
+                    </header>
+                    <div class="section-content">
+                        <ol class="provisions-list">
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Graduated Accountability Framework: Proportional and Restorative Responses</span>
+                                    <p class="principle-text">
+                                        Recognizing that effective voluntary governance requires meaningful consequences while prioritizing restoration over punishment, subscribing parties accept a comprehensive accountability framework with graduated responses calibrated to the severity, intent, and impact of non-compliance:
+                                        <ol type="a">
+                                            <li><strong>Diplomatic Engagement (Level 1):</strong> For minor procedural violations or data reporting delays - informal consultation, technical assistance, and voluntary compliance planning</li>
+                                            <li><strong>Formal Notification (Level 2):</strong> For repeated procedural failures or transparency deficiencies - official warning with mandatory compliance timeline and enhanced reporting requirements</li>
+                                            <li><strong>Public Accountability (Level 3):</strong> For significant Protocol violations - publication of detailed compliance assessment, mandatory corrective action plan, and temporary suspension of certain Charter privileges</li>
+                                            <li><strong>Restorative Engagement (Level 4):</strong> For major environmental harm or safety violations - requirement to fund remediation activities, enhanced monitoring obligations, and mandatory participation in capacity-building programs</li>
+                                            <li><strong>Restrictive Measures (Level 5):</strong> For severe violations threatening orbital safety - temporary suspension of new orbital approvals, enhanced international oversight, and mandatory third-party compliance verification</li>
+                                        </ol>
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Dispute Resolution and Mediation Procedures</span>
+                                    <p class="principle-text">
+                                        <ol type="a">
+                                            <li>
+                                                <strong>Dispute Initiation:</strong> Any subscribing party may file formal disputes or concerns with the Secretariat regarding:
+                                                <ol type="1">
+                                                    <li>Alleged Protocol violations by other subscribers</li>
+                                                    <li>Interference with legitimate orbital activities</li>
+                                                    <li>Discriminatory treatment or access restrictions</li>
+                                                    <li>Environmental damage or safety threats</li>
+                                                    <li>Disagreements over Protocol interpretation or implementation</li>
+                                                </ol>
+                                            </li>
+                                            <li>
+                                                <strong>Resolution Process:</strong>
+                                                <ol type="1">
+                                                    <li><strong>Preliminary Assessment:</strong> Secretariat evaluation within 30 days to determine dispute validity and appropriate response level</li>
+                                                    <li><strong>Direct Negotiation:</strong> Mandatory 60-day period for parties to resolve disputes through direct bilateral or multilateral negotiation</li>
+                                                    <li><strong>Technical Mediation:</strong> OSSAG-led technical assessment and mediation for disputes involving scientific or technical issues</li>
+                                                    <li><strong>Formal Mediation:</strong> Neutral panel mediation with binding recommendations if parties consent</li>
+                                                    <li><strong>Assembly Arbitration:</strong> Final resolution by Charter Assembly for disputes affecting Charter integrity or multiple parties</li>
+                                                </ol>
+                                            </li>
+                                            <li>
+                                                <strong>Transparency and Publication:</strong> All dispute proceedings, findings, and recommendations are published in redacted form protecting sensitive information while ensuring public accountability and precedent development.
+                                            </li>
+                                        </ol>
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Withdrawal Procedures and Consequences</span>
+                                    <p class="principle-text">
+                                        <ol type="a">
+                                            <li>
+                                                <strong>Withdrawal Process:</strong> Parties may withdraw from Charter obligations with 180 days' advance notice, during which time:
+                                                <ol type="1">
+                                                    <li>All existing Protocol obligations remain in force</li>
+                                                    <li>Withdrawing party must complete pending compliance actions</li>
+                                                    <li>Transition plans must be submitted for ongoing orbital activities</li>
+                                                    <li>Final compliance assessment is conducted and published</li>
+                                                </ol>
+                                            </li>
+                                            <li>
+                                                <strong>Post-Withdrawal Status:</strong> Withdrawal results in:
+                                                <ol type="1">
+                                                    <li>Permanent notation in the public OASC Registry with compliance history</li>
+                                                    <li>Loss of access to Charter coordination mechanisms and data sharing systems</li>
+                                                    <li>Continued responsibility for orbital debris and environmental damage caused during membership</li>
+                                                    <li>Potential restrictions on future re-engagement based on withdrawal circumstances</li>
+                                                </ol>
+                                            </li>
+                                            <li>
+                                                <strong>Re-engagement Pathway:</strong> Former subscribers may seek readmission through enhanced due diligence process including compliance assessment, capacity demonstration, and commitment to address any outstanding obligations.
+                                            </li>
+                                        </ol>
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Due Process and Appeals Framework</span>
+                                    <p class="principle-text">
+                                        All accountability actions must comply with fundamental due process requirements including notice, opportunity to respond, right to present evidence, access to technical assistance, and appeals procedures. No accountability measure may be imposed without fair hearing and consideration of mitigating circumstances, capacity constraints, or good faith efforts at compliance.
+                                    </p>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="article8" class="document-section fade-in">
+                    <header class="section-header">
+                        <h2 class="section-title">ARTICLE VIII - ENTRY INTO FORCE</h2>
+                    </header>
+                    <div class="section-content">
+                        <ol class="provisions-list">
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Charter Activation Requirements: Building Critical Mass for Effective Governance</span>
+                                    <p class="principle-text">
+                                        This Charter shall enter into force on the first day of the month following satisfaction of all activation criteria, ensuring sufficient participation for meaningful governance while maintaining accessibility for emerging space nations:
+                                        <ol type="a">
+                                            <li><strong>Quantitative Thresholds:</strong> Execution of valid Commitment Accords by:
+                                                <ol type="1">
+                                                    <li>At least fifteen (15) sovereign nations representing a minimum of 75% of current global orbital launch capacity</li>
+                                                    <li>At least one sovereign nation from each of the following geographic regions: Americas, Europe, Asia-Pacific, Africa, and Middle East</li>
+                                                    <li>At least three (3) nations classified by the United Nations as Least Developed Countries (LDCs) or Small Island Developing States (SIDS)</li>
+                                                    <li>At least five (5) intergovernmental organizations or industry associations representing collective commitments</li>
+                                                </ol>
+                                            </li>
+                                            <li><strong>Institutional Prerequisites:</strong> Establishment and operationalization of:
+                                                <ol type="1">
+                                                    <li>Interim Secretariat with secured funding for initial three-year operational period</li>
+                                                    <li>Founding membership of Orbital Sustainability Scientific Advisory Group (OSSAG) with appointed experts from subscribing parties</li>
+                                                    <li>Foundational Protocol A (Orbital Launch Harmonisation) with detailed implementation procedures</li>
+                                                    <li>Public registry system capable of managing subscriber data, compliance monitoring, and transparency obligations</li>
+                                                </ol>
+                                            </li>
+                                            <li><strong>Legal and Operational Readiness:</strong> Completion of:
+                                                <ol type="1">
+                                                    <li>Comprehensive legal review ensuring consistency with international space law and non-interference with existing treaties</li>
+                                                    <li>Initial capacity-building framework including technical assistance programs and financial mechanisms</li>
+                                                    <li>Emergency protocols for responding to orbital incidents and crisis situations</li>
+                                                    <li>Formal notification to the United Nations Office for Outer Space Affairs (UNOOSA) and relevant international bodies</li>
+                                                </ol>
+                                            </li>
+                                        </ol>
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Progressive Implementation Framework: Phased Operationalization</span>
+                                    <p class="principle-text">
+                                        <ol type="a">
+                                            <li>
+                                                <strong>Immediate Effect (Entry into Force):</strong> Upon Charter activation, all subscribing parties are immediately bound by:
+                                                <ol type="1">
+                                                    <li>Core Charter principles and transparency obligations</li>
+                                                    <li>Foundational Protocol A commitments and implementation timelines</li>
+                                                    <li>Secretariat operational support and data sharing requirements</li>
+                                                    <li>Dispute resolution and accountability framework participation</li>
+                                                    <li>Public registry maintenance and compliance reporting obligations</li>
+                                                </ol>
+                                            </li>
+                                            <li>
+                                                <strong>Phase 1 Implementation (Months 1-12):</strong> Institutional establishment period focusing on:
+                                                <ol type="1">
+                                                    <li>First Charter Assembly convening and governance structure operationalization</li>
+                                                    <li>OSSAG activation with initial scientific assessment priorities</li>
+                                                    <li>Protocol A full implementation with monitoring and verification systems</li>
+                                                    <li>Capacity-building program launch for developing space nations</li>
+                                                    <li>Development of additional priority Protocols identified during Charter negotiations</li>
+                                                </ol>
+                                            </li>
+                                            <li>
+                                                <strong>Phase 2 Expansion (Years 2-3):</strong> System maturation including:
+                                                <ol type="1">
+                                                    <li>Comprehensive Protocol suite covering key orbital governance domains</li>
+                                                    <li>Expanded membership outreach to non-subscribing space nations</li>
+                                                    <li>Enhanced accountability mechanisms with proven compliance history</li>
+                                                    <li>Advanced scientific assessment capabilities and early warning systems</li>
+                                                    <li>International partnership development with existing space governance bodies</li>
+                                                </ol>
+                                            </li>
+                                        </ol>
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Transitional Arrangements and Legal Continuity</span>
+                                    <p class="principle-text">
+                                        <ol type="a">
+                                            <li>
+                                                <strong>Pre-Entry Commitments:</strong> Nations signing Commitment Accords prior to Charter entry into force may voluntarily begin implementing Charter obligations and shall receive full credit for early action upon activation.
+                                            </li>
+                                            <li>
+                                                <strong>Existing Agreement Preservation:</strong> This Charter operates as a complementary voluntary framework that:
+                                                <ol type="1">
+                                                    <li>Does not supersede, modify, or conflict with existing bilateral or multilateral space agreements</li>
+                                                    <li>Respects national sovereignty and regulatory autonomy over domestic orbital activities</li>
+                                                    <li>Provides enhanced cooperation mechanisms without creating binding international legal obligations</li>
+                                                    <li>Maintains consistency with the Outer Space Treaty and other foundational space law instruments</li>
+                                                </ol>
+                                            </li>
+                                            <li>
+                                                <strong>Provisional Operation:</strong> If activation criteria are not met within two years of first Commitment Accord signature, subscribing parties may establish provisional governance arrangements with reduced institutional requirements while continuing efforts to achieve full activation.
+                                            </li>
+                                            <li>
+                                                <strong>International Recognition:</strong> Upon entry into force, the Charter Secretariat shall:
+                                                <ol type="1">
+                                                    <li>Formally notify UNOOSA and register the Charter as a voluntary cooperative framework</li>
+                                                    <li>Establish working relationships with relevant UN agencies and international organizations</li>
+                                                    <li>Provide regular reports to the UN Committee on the Peaceful Uses of Outer Space (COPUOS)</li>
+                                                    <li>Coordinate with existing space governance initiatives to prevent duplication and enhance complementarity</li>
+                                                </ol>
+                                            </li>
+                                        </ol>
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="provision-item">
+                                <div class="provision-content">
+                                    <span class="principle-title">Charter Review and Evolution Mandate</span>
+                                    <p class="principle-text">
+                                        Within five years of entry into force, and every five years thereafter, the Charter Assembly shall conduct comprehensive effectiveness reviews assessing Charter performance, emerging challenges, technological developments, and governance innovations. These reviews may recommend structural reforms, institutional adaptations, or fundamental Charter evolution to ensure continued relevance and effectiveness in promoting sustainable orbital use for all humanity.
+                                    </p>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <footer class="document-footer">
+                    <p>© 2025 Orbital Conservation Institute. All rights reserved.</p>
+                </footer>
+            </div>
+        </main>
+
+        <!-- Signatories Modal -->
+        <div class="modal-overlay" id="signatoriesModal">
+            <div class="modal-container">
+                <header class="modal-header">
+                    <h2 class="modal-title">
+                        OASC Registry
+                    </h2>
+                    <button class="modal-close" onclick="closeSignatoriesModal()">&times;</button>
+                </header>
+                
+                <div class="modal-body">
+                    <div class="modal-stats" id="modalStats">
+                        <!-- Stats will be populated by JavaScript -->
+                    </div>
+                    
+                    <div class="modal-filters">
+                        <div class="modal-filter-group">
+                            <label class="modal-filter-label">Status</label>
+                            <select class="modal-filter-select" id="modalStatusFilter">
+                                <option value="all">All Statuses</option>
+                                <option value="active">Active</option>
+                                <option value="observer">Observer</option>
+                                <option value="pending">Pending</option>
+                            </select>
+                        </div>
+                        <div class="modal-filter-group">
+                            <label class="modal-filter-label">Type</label>
+                            <select class="modal-filter-select" id="modalTypeFilter">
+                                <option value="all">All Types</option>
+                                <option value="country">Countries</option>
+                                <option value="organization">Organizations</option>
+                            </select>
+                        </div>
+                        <div class="modal-filter-group">
+                            <label class="modal-filter-label">Sort By</label>
+                            <select class="modal-filter-select" id="modalSortFilter">
+                                <option value="name">Name (A-Z)</option>
+                                <option value="date">Date Signed</option>
+                                <option value="status">Status</option>
+                                <option value="region">Region</option>
+                            </select>
+                        </div>
+                        <div class="modal-filter-group modal-search">
+                            <label class="modal-filter-label">Search</label>
+                            <input type="text" class="modal-search-input" id="modalSearchInput" placeholder="Search registry...">
+                        </div>
+                    </div>
+                    
+                    <div class="modal-content">
+                        <div class="modal-signatories-grid" id="modalSignatoriesGrid">
+                            <!-- Signatories will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Member Detail Modal -->
+        <div class="member-detail-modal" id="memberDetailModal">
+            <div class="member-detail-container">
+                <div class="member-detail-header">
+                    <button class="member-detail-close" onclick="closeMemberDetailModal()">&times;</button>
+                    <img src="" alt="" class="member-detail-flag" id="memberDetailFlag">
+                    <h2 class="member-detail-name" id="memberDetailName"></h2>
+                    <p class="member-detail-type" id="memberDetailType"></p>
+                </div>
+                
+                <div class="member-detail-body">
+                    <div class="member-detail-status-bar">
+                        <span class="member-status-badge" id="memberDetailStatus"></span>
+                    </div>
+                    
+                    <div class="member-detail-info">
+                        <div class="info-section">
+                            <h3 class="info-section-title">Basic Information</h3>
+                            <div class="info-grid">
+                                <span class="info-label">Full Name:</span>
+                                <span class="info-value" id="memberDetailFullName"></span>
+                            </div>
+                            <div class="info-grid">
+                                <span class="info-label">Region:</span>
+                                <span class="info-value" id="memberDetailRegion"></span>
+                            </div>
+                            <div class="info-grid">
+                                <span class="info-label">Subscription Date:</span>
+                                <span class="info-value" id="memberDetailDate"></span>
+                            </div>
+                            <div class="info-grid" id="memberDetailRepresentativeRow" style="display: none;">
+                                <span class="info-label">Representative:</span>
+                                <span class="info-value" id="memberDetailRepresentative"></span>
+                            </div>
+                        </div>
+
+                        <div class="info-section" id="memberDetailNotesSection" style="display: none;">
+                            <h3 class="info-section-title">Additional Notes</h3>
+                            <p id="memberDetailNotes"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="back-to-top">Back to top</button>
+        
+        <script>
+            // Signatories data will be loaded from JSON
+            let signatoriesData = null;
+            let filteredSignatories = [];
+
+            // Load signatories data
+            async function loadSignatoriesData() {
+                try {
+                    const response = await fetch('https://oci-development.github.io/oasc/data/signatories.json');
+                    signatoriesData = await response.json();
+                    return signatoriesData;
+                } catch (error) {
+                    console.error('Error loading signatories data:', error);
+                    return null;
+                }
+            }
+
+            // Open signatories modal
+            async function openSignatoriesModal() {
+                if (!signatoriesData) {
+                    signatoriesData = await loadSignatoriesData();
+                }
+                
+                if (signatoriesData) {
+                    renderModalStats();
+                    filterModalSignatories();
+                    document.getElementById('signatoriesModal').classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    alert('Unable to load signatories data. Please try again later.');
+                }
+            }
+
+            // Close signatories modal
+            function closeSignatoriesModal() {
+                document.getElementById('signatoriesModal').classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            // Render modal statistics
+            function renderModalStats() {
+                const stats = signatoriesData.metadata;
+                const statsContainer = document.getElementById('modalStats');
+                
+                statsContainer.innerHTML = `
+                    <div class="modal-stat-card">
+                        <span class="modal-stat-number">${stats.totalCountries}</span>
+                        <span class="modal-stat-label">Countries</span>
+                    </div>
+                    <div class="modal-stat-card">
+                        <span class="modal-stat-number">${stats.totalOrganizations}</span>
+                        <span class="modal-stat-label">Organizations</span>
+                    </div>
+                    <div class="modal-stat-card">
+                        <span class="modal-stat-number">${stats.activeMembers}</span>
+                        <span class="modal-stat-label">Active</span>
+                    </div>
+                    <div class="modal-stat-card">
+                        <span class="modal-stat-number">${stats.observers}</span>
+                        <span class="modal-stat-label">Observers</span>
+                    </div>
+                `;
+            }
+
+            // Create signatory card HTML
+            function createModalSignatoryCard(signatory, index) {
+                const statusClass = `modal-status-${signatory.status}`;
+                const statusText = signatory.status.charAt(0).toUpperCase() + signatory.status.slice(1);
+                const dateFormatted = new Date(signatory.dateSigned).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+                
+                return `
+                    <div class="modal-signatory-card" onclick="openMemberDetailModal(${JSON.stringify(signatory).replace(/"/g, '&quot;')})">
+                        <div class="modal-signatory-header">
+                            <img src="${signatory.flag}" alt="${signatory.name} flag" class="modal-signatory-flag" onerror="this.style.display='none'">
+                            <h4 class="modal-signatory-name">${signatory.name}</h4>
+                        </div>
+                        <div class="modal-signatory-details">
+                            <div class="modal-signatory-detail">
+                                <span class="modal-detail-label">Type:</span>
+                                <span class="modal-detail-value">${signatory.type.charAt(0).toUpperCase() + signatory.type.slice(1)}</span>
+                            </div>
+                            <div class="modal-signatory-detail">
+                                <span class="modal-detail-label">Region:</span>
+                                <span class="modal-detail-value">${signatory.region}</span>
+                            </div>
+                            <div class="modal-signatory-detail">
+                                <span class="modal-detail-label">Signed:</span>
+                                <span class="modal-detail-value">${dateFormatted}</span>
+                            </div>
+                            ${signatory.representative ? `
+                            <div class="modal-signatory-detail">
+                                <span class="modal-detail-label">Rep:</span>
+                                <span class="modal-detail-value">${signatory.representative}</span>
+                            </div>
+                            ` : ''}
+                            <div class="modal-signatory-detail">
+                                <span class="modal-detail-label">Status:</span>
+                                <span class="modal-detail-value">
+                                    <span class="modal-signatory-status ${statusClass}">${statusText}</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-top: 15px; font-size: 12px; color: var(--text-secondary); font-style: italic;">
+                            Click for more details
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Open member detail modal
+            function openMemberDetailModal(member) {
+                const modal = document.getElementById('memberDetailModal');
+                const statusClass = `modal-status-${member.status}`;
+                const statusText = member.status.charAt(0).toUpperCase() + member.status.slice(1);
+                const dateFormatted = new Date(member.dateSigned).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+
+                // Populate header
+                document.getElementById('memberDetailFlag').src = member.flag;
+                document.getElementById('memberDetailFlag').alt = `${member.name} flag`;
+                document.getElementById('memberDetailName').textContent = member.name;
+                document.getElementById('memberDetailType').textContent = member.type.charAt(0).toUpperCase() + member.type.slice(1);
+                
+                // Populate status
+                const statusBadge = document.getElementById('memberDetailStatus');
+                statusBadge.textContent = statusText;
+                statusBadge.className = `member-status-badge ${statusClass}`;
+                
+                // Populate basic info
+                document.getElementById('memberDetailFullName').textContent = member.fullName || member.name;
+                document.getElementById('memberDetailRegion').textContent = member.region;
+                document.getElementById('memberDetailDate').textContent = dateFormatted;
+                
+                // Handle representative
+                const repRow = document.getElementById('memberDetailRepresentativeRow');
+                if (member.representative) {
+                    document.getElementById('memberDetailRepresentative').textContent = member.representative;
+                    repRow.style.display = 'grid';
+                } else {
+                    repRow.style.display = 'none';
+                }
+                
+                // Handle notes
+                const notesSection = document.getElementById('memberDetailNotesSection');
+                if (member.notes) {
+                    document.getElementById('memberDetailNotes').textContent = member.notes;
+                    notesSection.style.display = 'block';
+                } else {
+                    notesSection.style.display = 'none';
+                }
+                
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+
+            // Close member detail modal
+            function closeMemberDetailModal() {
+                document.getElementById('memberDetailModal').classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            // Filter and render signatories
+            function filterModalSignatories() {
+                if (!signatoriesData) return;
+                
+                const statusFilter = document.getElementById('modalStatusFilter').value;
+                const typeFilter = document.getElementById('modalTypeFilter').value;
+                const sortFilter = document.getElementById('modalSortFilter').value;
+                const searchTerm = document.getElementById('modalSearchInput').value.toLowerCase();
+
+                filteredSignatories = signatoriesData.signatories.filter(signatory => {
+                    const matchesStatus = statusFilter === 'all' || signatory.status === statusFilter;
+                    const matchesType = typeFilter === 'all' || signatory.type === typeFilter;
+                    const matchesSearch = searchTerm === '' || 
+                        signatory.name.toLowerCase().includes(searchTerm) ||
+                        signatory.region.toLowerCase().includes(searchTerm) ||
+                        (signatory.representative && signatory.representative.toLowerCase().includes(searchTerm));
+                    
+                    return matchesStatus && matchesType && matchesSearch;
+                });
+
+                // Sort signatories
+                filteredSignatories.sort((a, b) => {
+                    switch (sortFilter) {
+                        case 'name':
+                            return a.name.localeCompare(b.name);
+                        case 'date':
+                            return new Date(a.dateSigned) - new Date(b.dateSigned);
+                        case 'status':
+                            return a.status.localeCompare(b.status);
+                        case 'region':
+                            return a.region.localeCompare(b.region);
+                        default:
+                            return 0;
+                    }
+                });
+
+                renderModalSignatories();
+            }
+
+            // Render signatories in modal
+            function renderModalSignatories() {
+                const grid = document.getElementById('modalSignatoriesGrid');
+                
+                if (filteredSignatories.length === 0) {
+                    grid.innerHTML = '<div class="modal-no-results">No signatories match the current filters.</div>';
+                    return;
+                }
+
+                grid.innerHTML = filteredSignatories.map(createModalSignatoryCard).join('');
+            }
+
+            // Close modal when clicking outside
+            document.addEventListener('click', function(event) {
+                const modal = document.getElementById('signatoriesModal');
+                const memberModal = document.getElementById('memberDetailModal');
+                
+                if (event.target === modal) {
+                    closeSignatoriesModal();
+                }
+                
+                if (event.target === memberModal) {
+                    closeMemberDetailModal();
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    const signatoriesModal = document.getElementById('signatoriesModal');
+                    const memberModal = document.getElementById('memberDetailModal');
+                    
+                    if (memberModal.classList.contains('open')) {
+                        closeMemberDetailModal();
+                    } else if (signatoriesModal.classList.contains('open')) {
+                        closeSignatoriesModal();
+                    }
+                }
+            });
+
+            // Set up filter event listeners when DOM is loaded
+            document.addEventListener('DOMContentLoaded', function() {
+                // Set up modal filter event listeners
+                const modalStatusFilter = document.getElementById('modalStatusFilter');
+                const modalTypeFilter = document.getElementById('modalTypeFilter');
+                const modalSortFilter = document.getElementById('modalSortFilter');
+                const modalSearchInput = document.getElementById('modalSearchInput');
+
+                if (modalStatusFilter) modalStatusFilter.addEventListener('change', filterModalSignatories);
+                if (modalTypeFilter) modalTypeFilter.addEventListener('change', filterModalSignatories);
+                if (modalSortFilter) modalSortFilter.addEventListener('change', filterModalSignatories);
+                if (modalSearchInput) modalSearchInput.addEventListener('input', filterModalSignatories);
+            });
+
+            // Mobile navigation toggle
+            function toggleMobileNav() {
+                const navMain = document.getElementById('navMain');
+                navMain.classList.toggle('open');
+            }
+
+            // Table of Contents toggle
+            function toggleTOC() {
+                const tocSidebar = document.getElementById('tocSidebar');
+                tocSidebar.classList.toggle('open');
+            }
+
+            // Close TOC when clicking outside
+            document.addEventListener('click', function(event) {
+                const tocSidebar = document.getElementById('tocSidebar');
+                const tocToggle = document.querySelector('.toc-toggle');
+                
+                if (!tocSidebar.contains(event.target) && !tocToggle.contains(event.target)) {
+                    tocSidebar.classList.remove('open');
+                }
+            });
+
+            // Set current date and calculate reading time
+            document.addEventListener('DOMContentLoaded', function() {
+                // Set current date
+                document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-GB', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+
+                // Calculate reading time
+                const content = document.querySelector('.main-content').textContent;
+                const words = content.trim().split(/\s+/).length;
+                const readingTime = Math.ceil(words / 200); // 200 words per minute
+                document.getElementById('reading-time').textContent = readingTime;
+
+                // Update section counter
+                updateSectionCounter();
+
+                // Initialize fade-in animations
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                });
+
+                document.querySelectorAll('.fade-in').forEach(el => {
+                    observer.observe(el);
+                });
+            });
+
+            // Update section counter
+            function updateSectionCounter() {
+                const sections = document.querySelectorAll('section[id]');
+                const totalSections = sections.length;
+                document.getElementById('total-sections').textContent = totalSections;
+            }
+
+            // Scroll progress indicator
+            window.addEventListener('scroll', function() {
+                const scrolled = (window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+                document.querySelector('.progress-bar').style.width = scrolled + '%';
+                
+                // Show/hide back to top button
+                const backToTop = document.querySelector('.back-to-top');
+                if (window.pageYOffset > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+
+            // Enhanced navigation functionality
+            document.querySelectorAll('.nav-link:not(.disabled), .toc-link:not(.disabled)').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    
+                    // Allow external links (protocol pages) to work normally
+                    if (href && (href.endsWith('.html') || href.startsWith('http'))) {
+                        // Close mobile nav and TOC for external navigation
+                        document.getElementById('navMain').classList.remove('open');
+                        document.getElementById('tocSidebar').classList.remove('open');
+                        return; // Allow default browser navigation
+                    }
+                    
+                    // Only prevent default for internal section navigation
+                    e.preventDefault();
+                    
+                    // Don't navigate if disabled
+                    if (this.classList.contains('disabled')) {
+                        return;
+                    }
+                    
+                    // Remove active class from all links
+                    document.querySelectorAll('.nav-link, .toc-link').forEach(l => l.classList.remove('active'));
+                    
+                    // Add active class to clicked link and corresponding links
+                    const sectionId = this.getAttribute('data-section') || this.getAttribute('href').substring(1);
+                    document.querySelectorAll(`[data-section="${sectionId}"], [href="#${sectionId}"]`).forEach(l => {
+                        if (!l.classList.contains('disabled')) {
+                            l.classList.add('active');
+                        }
+                    });
+                    
+                    // Scroll to section
+                    const targetSection = document.getElementById(sectionId);
+                    
+                    if (targetSection) {
+                        const headerOffset = document.querySelector('.document-nav').offsetHeight;
+                        const elementPosition = targetSection.offsetTop;
+                        const offsetPosition = elementPosition - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+
+                        // Close mobile nav and TOC
+                        document.getElementById('navMain').classList.remove('open');
+                        document.getElementById('tocSidebar').classList.remove('open');
+                    }
+                });
+            });
+
+            // Back to top functionality
+            document.querySelector('.back-to-top').addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Update active navigation based on scroll position
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('section[id]');
+                const navLinks = document.querySelectorAll('.nav-link:not(.disabled), .toc-link:not(.disabled)');
+                const scrollPos = window.pageYOffset + 150;
+                let currentSectionIndex = 0;
+
+                sections.forEach((section, index) => {
+                    const top = section.offsetTop;
+                    const bottom = top + section.offsetHeight;
+
+                    if (scrollPos >= top && scrollPos <= bottom) {
+                        currentSectionIndex = index + 1;
+                        
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        
+                        const activeLinks = document.querySelectorAll(`[data-section="${section.id}"], [href="#${section.id}"]`);
+                        activeLinks.forEach(link => {
+                            if (!link.classList.contains('disabled')) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+
+                // Update current section counter
+                document.getElementById('current-section').textContent = currentSectionIndex;
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key >= '1' && e.key <= '9') {
+                    e.preventDefault();
+                    const sections = ['preamble', 'article1', 'article2', 'article3', 'article4', 'article5', 'article6', 'article7', 'article8'];
+                    const targetSection = sections[parseInt(e.key) - 1];
+                    const link = document.querySelector(`[data-section="${targetSection}"]:not(.disabled)`);
+                    if (link) {
+                        link.click();
+                    }
+                }
+
+                // Toggle TOC with Ctrl+T
+                if (e.ctrlKey && e.key === 't') {
+                    e.preventDefault();
+                    toggleTOC();
+                }
+
+                // Toggle mobile nav with Ctrl+M
+                if (e.ctrlKey && e.key === 'm') {
+                    e.preventDefault();
+                    toggleMobileNav();
+                }
+            });
+
+            // Accessibility enhancements
+            document.querySelectorAll('.nav-link:not(.disabled), .back-to-top, .toc-link:not(.disabled)').forEach(element => {
+                element.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+            });
+
+            // Add print functionality
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'p') {
+                    e.preventDefault();
+                    window.print();
+                }
+            });
+
+            // Protocol navigation helper (for future use)
+            function navigateToProtocol(protocolId) {
+                // This function can be used to navigate to separate protocol SPAs
+                // For now, it shows a placeholder
+                alert(`Protocol ${protocolId} will open in a separate page when implemented.`);
+            }
+        </script>
+    </body>
+</html>
