@@ -273,11 +273,39 @@
                 top: 100%;
                 left: 0;
                 background: white;
-                min-width: 200px;
+                min-width: 280px;
+                max-width: 400px;
+                max-height: 70vh;
+                overflow-y: auto;
                 box-shadow: 0 4px 12px rgba(0,0,0,0.15);
                 border: 1px solid var(--border-color);
                 border-radius: 4px;
                 z-index: 1000;
+            }
+
+            /* Custom scrollbar for dropdown */
+            .nav-dropdown-content::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .nav-dropdown-content::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 4px;
+            }
+
+            .nav-dropdown-content::-webkit-scrollbar-thumb {
+                background: var(--primary-color);
+                border-radius: 4px;
+            }
+
+            .nav-dropdown-content::-webkit-scrollbar-thumb:hover {
+                background: var(--primary-dark);
+            }
+
+            /* Firefox scrollbar */
+            .nav-dropdown-content {
+                scrollbar-width: thin;
+                scrollbar-color: var(--primary-color) #f1f1f1;
             }
 
             .nav-dropdown:hover .nav-dropdown-content {
@@ -287,15 +315,29 @@
             .nav-dropdown-content .nav-link {
                 border-bottom: none;
                 border-left: 3px solid transparent;
-                padding: 12px 20px;
-                font-size: 14px;
+                padding: 10px 20px;
+                font-size: 13px;
                 text-align: left;
+                line-height: 1.4;
+                transition: all 0.2s ease;
             }
 
             .nav-dropdown-content .nav-link:hover,
             .nav-dropdown-content .nav-link.active {
                 border-left-color: var(--primary-color);
                 background: var(--section-background);
+            }
+
+            /* Special styling for disabled protocol links */
+            .nav-dropdown-content .nav-link.disabled {
+                color: var(--text-secondary);
+                cursor: default;
+                opacity: 0.6;
+            }
+
+            .nav-dropdown-content .nav-link.disabled:hover {
+                background: transparent;
+                border-left-color: transparent;
             }
 
             /* Table of Contents Sidebar */
@@ -1507,16 +1549,55 @@
                                 <a href="#protocols" class="nav-link">Protocols ▼</a>
                                 <div class="nav-dropdown-content">
                                     <a href="pa.html" class="nav-link toc-protocol">
-                                        a. Orbital Launch Harmonisation (OLH)
+                                        a. Orbital Slot and Launch Harmonisation
                                     </a>
                                     <a href="#" class="nav-link disabled toc-protocol">
-                                        b. Launch Coordination (Coming Soon)
+                                        b. Spectrum and Signal Deconfliction
                                     </a>
                                     <a href="#" class="nav-link disabled toc-protocol">
-                                        c. Data Sharing Standards (Coming Soon)
+                                        c. Orbital Debris Mitigation Standards
                                     </a>
                                     <a href="#" class="nav-link disabled toc-protocol">
-                                        d. Emergency Response (Coming Soon)
+                                        d. Post-Mission Asset Disposal
+                                    </a>
+                                    <a href="#" class="nav-link disabled toc-protocol">
+                                        e. Active Debris Removal and Servicing
+                                    </a>
+                                    <a href="#" class="nav-link disabled toc-protocol">
+                                        f. Orbital Object Tracking and Transparency
+                                    </a>
+                                    <a href="#" class="nav-link disabled toc-protocol">
+                                        g. Pre-Launch and Maneuver Disclosure
+                                    </a>
+                                    <a href="#" class="nav-link disabled toc-protocol">
+                                        h. Conjunction and Collision Avoidance
+                                    </a>
+                                    <a href="#" class="nav-link disabled toc-protocol">
+                                        i. Orbital Emergency Response and Investigation
+                                    </a>
+                                    <a href="#" class="nav-link disabled toc-protocol">
+                                        j. Capacity Building and Equitable Access
+                                    </a>
+                                    <a href="#" class="nav-link disabled toc-protocol">
+                                        k. Mission Transparency and Purpose Disclosure
+                                    </a>
+                                    <a href="#" class="nav-link disabled toc-protocol">
+                                        l. Anti-Weaponisation of Orbital Regions
+                                    </a>
+                                    <a href="#" class="nav-link disabled toc-protocol">
+                                        m. Orbital Environment Impact Assessment
+                                    </a>
+                                    <a href="#" class="nav-link disabled toc-protocol">
+                                        n. Lunar and Planetary Orbital Protection
+                                    </a>
+                                    <a href="#" class="nav-link disabled toc-protocol">
+                                        o. Mega-Constellation Life Cycle Management
+                                    </a>
+                                    <a href="#" class="nav-link disabled toc-protocol">
+                                        p. In-Orbit Servicing, Assembly, and Manufacturing
+                                    </a>
+                                    <a href="#" class="nav-link disabled toc-protocol">
+                                        q. Orbital Heritage and Cultural Preservation
                                     </a>
                                 </div>
                             </li>
@@ -1601,19 +1682,55 @@
                     <h3>Supporting Protocols</h3>
                     <ul class="toc-list">
                         <li>
-                            <span class="toc-link disabled toc-protocol">Protocol A: Orbital Debris Mitigation Standards (Coming Soon)</span>
+                            <span class="toc-link disabled toc-protocol">Protocol A: Orbital Slot and Launch Harmonisation</span>
                         </li>
                         <li>
-                            <span class="toc-link disabled toc-protocol">Protocol B: Launch Coordination Procedures (Coming Soon)</span>
+                            <span class="toc-link disabled toc-protocol">Protocol B: Spectrum and Signal Deconfliction</span>
                         </li>
                         <li>
-                            <span class="toc-link disabled toc-protocol">Protocol C: Data Sharing Framework (Coming Soon)</span>
+                            <span class="toc-link disabled toc-protocol">Protocol C: Orbital Debris Mitigation Standards</span>
                         </li>
                         <li>
-                            <span class="toc-link disabled toc-protocol">Protocol D: Emergency Response Procedures (Coming Soon)</span>
+                            <span class="toc-link disabled toc-protocol">Protocol D: Post-Mission Asset Disposal</span>
                         </li>
                         <li>
-                            <span class="toc-link disabled toc-protocol">Protocol E: Sustainability Metrics (Coming Soon)</span>
+                            <span class="toc-link disabled toc-protocol">Protocol E: Active Debris Removal and Servicing</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled toc-protocol">Protocol F: Orbital Object Tracking and Transparency</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled toc-protocol">Protocol G: Pre-Launch and Maneuver Disclosure</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled toc-protocol">Protocol H: Conjunction and Collision Avoidance</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled toc-protocol">Protocol I: Orbital Emergency Response and Investigation</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled toc-protocol">Protocol J: Capacity Building and Equitable Access</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled toc-protocol">Protocol K: Mission Transparency and Purpose Disclosure</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled toc-protocol">Protocol L: Anti-Weaponisation of Orbital Regions</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled toc-protocol">Protocol M: Orbital Environment Impact Assessment</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled toc-protocol">Protocol N: Lunar and Planetary Orbital Protection</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled toc-protocol">Protocol O: Mega-Constellation Life Cycle Management</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled toc-protocol">Protocol P: In-Orbit Servicing, Assembly, and Manufacturing</span>
+                        </li>
+                        <li>
+                            <span class="toc-link disabled toc-protocol">Protocol Q: Orbital Heritage and Cultural Preservation</span>
                         </li>
                     </ul>
                 </div>
