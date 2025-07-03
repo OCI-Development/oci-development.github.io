@@ -475,6 +475,9 @@
                     flex-direction: column;
                     gap: 0;
                     padding: 20px 0;
+                    max-height: calc(100vh - 200px);
+                    overflow-y: auto;
+                    -webkit-overflow-scrolling: touch;
                 }
 
                 .nav-main.open {
@@ -511,6 +514,24 @@
                     background: var(--section-background);
                     margin-left: 20px;
                     border-radius: 0;
+                }
+
+                /* Custom scrollbar for mobile navigation */
+                .nav-main::-webkit-scrollbar {
+                    width: 6px;
+                }
+
+                .nav-main::-webkit-scrollbar-track {
+                    background: var(--section-background);
+                }
+
+                .nav-main::-webkit-scrollbar-thumb {
+                    background: var(--border-color);
+                    border-radius: 3px;
+                }
+
+                .nav-main::-webkit-scrollbar-thumb:hover {
+                    background: var(--text-secondary);
                 }
 
                 .toc-toggle {
