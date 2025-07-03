@@ -2872,13 +2872,18 @@
                     return;
                 }
 
+                if (!closeBtn) {
+                    console.error('Close button not found!');
+                    return;
+                }
+
                 if (!NOTIFICATION_CONFIG.enabled) {
                     console.log('Banner disabled by configuration');
                     return; // Don't show banner if disabled
                 }
 
                 // Check if user has dismissed this message before
-                const dismissedKey = `banner_dismissed_${btoa(NOTIFICATION_CONFIG.message).substr(0, 20)}`;
+                const dismissedKey = `banner_dismissed_${btoa(NOTIFICATION_CONFIG.message).substring(0, 20)}`;
                 
                 // Reset dismissal for testing if configured
                 if (NOTIFICATION_CONFIG.resetDismissal) {
@@ -2908,19 +2913,21 @@
                 console.log('Banner should now be visible, classes:', banner.className);
                 console.log('Banner computed style:', window.getComputedStyle(banner).display);
 
-                // Close button functionality
-                if (closeBtn) {
-                    closeBtn.addEventListener('click', function() {
-                        console.log('Banner close button clicked');
-                        hideBanner();
-                        // Remember user dismissed this message
-                        localStorage.setItem(dismissedKey, 'true');
-                    });
-                }
+                // Close button functionality - fix scope and add better error handling
+                closeBtn.addEventListener('click', function() {
+                    console.log('Banner close button clicked');
+                    hideBanner();
+                    // Remember user dismissed this message
+                    localStorage.setItem(dismissedKey, 'true');
+                    console.log('Banner dismissed and saved to localStorage');
+                });
 
                 // Auto-hide functionality
                 if (NOTIFICATION_CONFIG.autoHide) {
-                    setTimeout(hideBanner, NOTIFICATION_CONFIG.autoHideDelay);
+                    setTimeout(() => {
+                        hideBanner();
+                        localStorage.setItem(dismissedKey, 'true');
+                    }, NOTIFICATION_CONFIG.autoHideDelay);
                 }
 
                 // Show banner with animation
@@ -2937,7 +2944,13 @@
                 const banner = document.getElementById('notificationBanner');
                 if (banner) {
                     banner.classList.remove('active');
+                    banner.style.transform = 'translateY(-100%)';
                     document.body.classList.remove('banner-active');
+                    
+                    // Hide the banner after animation completes
+                    setTimeout(() => {
+                        banner.style.display = 'none';
+                    }, 300);
                 }
             }
 
