@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://oci-development.github.io/images/oci-icon-t-white.png" type="image/png">
+    <title>Orbital Debris Cleanup - OASC Fun Zone</title>
+    <style>
+        :root {
+            --primary-color: #005ea5;
+            --primary-dark: #003d75;
+            --success-color: #00703c;
+            --warning-color: #f47738;
+            --danger-color: #d4351c;
+            --text-color: #0b0c0c;
+            --bg-color: #f3f2f1;
+            --card-bg: #ffffff;
+            --border-color: #b1b4b6;
+            --space-bg: linear-gradient(135deg, #0c1445 0%, #1a1a2e 50%, #16213e 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--space-bg);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .game-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00d4ff, #7b68ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            opacity: 0.8;
+            font-size: 1.1em;
+        }
+
+        .game-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00d4ff;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #00d4ff, #7b68ee);
+            border-radius: 4px;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .game-area {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .debris-field {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .debris-item {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            pointer-events: none; /* Make debris non-clickable */
+        }
+
+        .debris-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(255, 107, 107, 0.7);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(180deg); }
+        }
+
+        .debris-item.collected {
+            animation: collect 0.5s ease-out forwards;
+        }
+
+        @keyframes collect {
+            to {
+                transform: scale(0) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .main-action {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .collect-btn {
+            background: linear-gradient(45deg, var(--primary-color), #00d4ff);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .collect-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.5);
+        }
+
+        .collect-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .collect-btn:disabled {
+            background: linear-gradient(45deg, #666, #888);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .debris-counter {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 107, 107, 0.9);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .game-clock {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 212, 255, 0.9);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.9em;
+            font-family: 'Courier New', monospace;
+        }
+
+        .debris-counter.danger {
+            background: rgba(212, 53, 28, 0.9);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .upgrades-panel {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .upgrades-panel h3 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #00d4ff;
+        }
+
+        .upgrade-item {
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .upgrade-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            flex-direction: column;
+        }
+
+        .upgrade-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .upgrade-level {
+            background: var(--primary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            align-self: flex-start;
+        }
+
+        .upgrade-description {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+
+        .upgrade-btn {
+            width: 100%;
+            background: linear-gradient(45deg, var(--success-color), #00d4ff);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .upgrade-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .upgrade-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .control-btn.prestige {
+            background: linear-gradient(45deg, #ff6b6b, #ffa726);
+        }
+
+        .control-btn.save {
+            background: linear-gradient(45deg, var(--success-color), #4caf50);
+        }
+
+        .control-btn.load {
+            background: linear-gradient(45deg, var(--primary-color), #2196f3);
+        }
+
+        .prestige-info {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: twinkle 2s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-50px) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .game-area {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .collect-btn {
+                padding: 15px 30px;
+                font-size: 1em;
+            }
+        }
+
+        .achievement-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #4caf50, #00d4ff);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            transform: translateX(400px);
+            transition: transform 0.5s ease;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .achievement-popup.show {
+            transform: translateX(0);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .modal h3 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn.confirm {
+            background: linear-gradient(45deg, #ff6b6b, #ffa726);
+            color: white;
+        }
+
+        .modal-btn.cancel {
+            background: #666;
+            color: white;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="game-container">
+        <header class="header">
+            <h1>🛰️ Orbital Debris Cleanup</h1>
+            <p>Help clean up space debris and make orbital access safer for everyone!</p>
+        </header>
+
+        <div class="game-stats">
+            <div class="stat-card">
+                <span class="stat-value" id="debrisCount">0</span>
+                <div class="stat-label">Debris Collected</div>
+            </div>
+            <div class="stat-card" id="autoCollectorCard" style="display: none;">
+                <div class="stat-label" style="margin-bottom: 10px;">🤖 Auto Collector</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="autoCollectorProgress"></div>
+                </div>
+                <div class="stat-label" id="autoCollectorStatus" style="margin-top: 5px; font-size: 0.8em;">Ready</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" id="totalCleanup">0</span>
+                <div class="stat-label">Total Cleanup Score</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" id="prestigeLevel">0</span>
+                <div class="stat-label">Prestige Level</div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="debris-field" id="debrisField">
+                <div class="game-clock" id="gameClock">00:00:00</div>
+                <div class="debris-counter" id="debrisCounter">Debris: 0/20</div>
+                <div class="main-action">
+                    <button class="collect-btn" id="collectBtn" disabled>🧹 Collect Debris</button>
+                </div>
+            </div>
+
+            <div class="upgrades-panel">
+                <h3>🔧 Cleanup Upgrades</h3>
+                <div id="upgradesList"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn prestige" id="prestigeBtn">✨ Prestige Reset</button>
+            <button class="control-btn save" id="saveBtn">💾 Save Progress</button>
+            <button class="control-btn load" id="loadBtn">📂 Load Progress</button>
+            <button class="control-btn" onclick="location.href='../index.html'">🏠 Back to OASC</button>
+        </div>
+
+        <div class="prestige-info" id="prestigeInfo" style="display: none;">
+            <p><strong>Ready to Prestige!</strong></p>
+            <p>You can reset your progress for a <span id="prestigeBonus">0</span>% permanent bonus to debris collection!</p>
+        </div>
+    </div>
+
+    <input type="file" id="fileInput" class="file-input" accept=".json">
+
+    <div class="achievement-popup" id="achievementPopup">
+        <div id="achievementText"></div>
+    </div>
+
+    <!-- Kessler Syndrome Game Over Modal -->
+    <div class="modal" id="kesslerModal">
+        <div class="modal-content" style="border: 2px solid #d4351c; background: linear-gradient(135deg, #2d1b1b, #3d1a1a);">
+            <h3 style="color: #ff6b6b;">💀 KESSLER SYNDROME</h3>
+            <p style="margin: 15px 0; font-size: 1.1em;">The debris field has become too dense! Cascading collisions have made orbital space inaccessible.</p>
+            <div style="background: rgba(255, 107, 107, 0.1); padding: 15px; border-radius: 10px; margin: 20px 0;">
+                <p><strong>Final Stats:</strong></p>
+                <p>• Total Debris Collected: <span id="finalDebrisCount">0</span></p>
+                <p>• Prestige Level: <span id="finalPrestigeLevel">0</span></p>
+                <p>• Time Survived: <span id="survivalTime">0</span> seconds</p>
+            </div>
+            <p style="font-size: 0.9em; opacity: 0.8;">In reality, Kessler Syndrome could make space exploration extremely dangerous. Your mission to clean up orbital debris is more important than ever!</p>
+            <div class="modal-buttons">
+                <button class="modal-btn confirm" id="restartGame">🔄 Restart Mission</button>
+                <button class="modal-btn cancel" onclick="location.href='../index.html'">🏠 Return to OASC</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prestige Confirmation Modal -->
+    <div class="modal" id="prestigeModal">
+        <div class="modal-content">
+            <h3>🌟 Prestige Reset</h3>
+            <p>Are you sure you want to prestige? This will:</p>
+            <ul style="text-align: left; margin: 15px 0;">
+                <li>Reset all your debris and upgrades</li>
+                <li>Give you a permanent <span id="modalPrestigeBonus">0</span>% collection bonus</li>
+                <li>Increase your prestige level</li>
+            </ul>
+            <div class="modal-buttons">
+                <button class="modal-btn confirm" id="confirmPrestige">Yes, Prestige!</button>
+                <button class="modal-btn cancel" id="cancelPrestige">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game state
+        let gameState = {
+            debris: 0,
+            totalDebris: 0,
+            prestigeLevel: 0,
+            prestigeBonus: 0,
+            spawnedDebris: 0, // Track spawned debris on screen
+            maxDebrisLimit: 30, // Kessler Syndrome threshold
+            gameStartTime: Date.now(), // Track game start time
+            lastAutoCollect: 0, // Track last auto-collection time
+            autoCollectorCooldown: 0, // Current cooldown remaining
+            autoCollectorMaxCooldown: 0, // Max cooldown for progress calculation
+            upgrades: {
+                collector: { level: 0, baseCost: 10, multiplier: 1.5 },
+                autoCollector: { level: 0, baseCost: 100, multiplier: 2 },
+                efficiency: { level: 0, baseCost: 500, multiplier: 2.5 },
+                scanner: { level: 0, baseCost: 1000, multiplier: 3 },
+                magneticField: { level: 0, baseCost: 5000, multiplier: 4 }
+            },
+            achievements: new Set(),
+            lastSave: Date.now(),
+            gameOver: false
+        };
+
+        // Upgrade definitions
+        const upgradeDefinitions = {
+            collector: {
+                name: "Manual Collector",
+                description: "Increases debris per click",
+                effect: (level) => Math.max(1, level), // Start with 1, then add more per level
+                icon: "🔧"
+            },
+            autoCollector: {
+                name: "Auto Collector",
+                description: "Automatically collects spawned debris (reduces cooldown)",
+                effect: (level) => Math.max(1, 6 - level), // Cooldown in seconds, starts at 6s, min 1s
+                icon: "🤖"
+            },
+            efficiency: {
+                name: "Collection Efficiency",
+                description: "Multiplies all collection",
+                effect: (level) => 1 + (level * 0.2),
+                icon: "⚡"
+            },
+            scanner: {
+                name: "Debris Scanner",
+                description: "Finds more debris in space",
+                effect: (level) => level * 2,
+                icon: "📡"
+            },
+            magneticField: {
+                name: "Magnetic Field Generator",
+                description: "Attracts distant debris",
+                effect: (level) => level * 5,
+                icon: "🧲"
+            }
+        };
+
+        // Achievement definitions
+        const achievements = {
+            firstDebris: { name: "First Cleanup", description: "Collect your first piece of debris", threshold: 1 },
+            hundred: { name: "Century Cleaner", description: "Collect 100 pieces of debris", threshold: 100 },
+            thousand: { name: "Millennium Cleaner", description: "Collect 1,000 pieces of debris", threshold: 1000 },
+            tenThousand: { name: "Space Janitor", description: "Collect 10,000 pieces of debris", threshold: 10000 },
+            hundredThousand: { name: "Orbital Guardian", description: "Collect 100,000 pieces of debris", threshold: 100000 },
+            firstUpgrade: { name: "Getting Better", description: "Purchase your first upgrade", threshold: 1 },
+            firstPrestige: { name: "Rising Star", description: "Prestige for the first time", threshold: 1 }
+        };
+
+        // Initialize the game
+        function initGame() {
+            loadGame();
+            createParticles();
+            updateDisplay();
+            renderUpgrades();
+            
+            // Start auto-collection loop (check more frequently for precise timing)
+            window.gameInterval = setInterval(autoCollect, 100); // Check every 100ms for smoother auto-collection
+            window.displayInterval = setInterval(updateDisplay, 100);
+            window.spawnInterval = setInterval(spawnDebris, 2000);
+            
+            // Event listeners
+            document.getElementById('collectBtn').addEventListener('click', collectDebris);
+            document.getElementById('prestigeBtn').addEventListener('click', showPrestigeModal);
+            document.getElementById('saveBtn').addEventListener('click', saveGame);
+            document.getElementById('loadBtn').addEventListener('click', () => document.getElementById('fileInput').click());
+            document.getElementById('fileInput').addEventListener('change', loadGameFromFile);
+            document.getElementById('confirmPrestige').addEventListener('click', prestige);
+            document.getElementById('cancelPrestige').addEventListener('click', hidePrestigeModal);
+            document.getElementById('restartGame').addEventListener('click', restartGame);
+        }
+
+        // Collect debris manually
+        function collectDebris() {
+            if (gameState.spawnedDebris <= 0 || gameState.gameOver) return;
+            
+            // Find and remove one debris piece from the field
+            const debrisItems = document.querySelectorAll('.debris-item:not(.collected)');
+            if (debrisItems.length > 0 && gameState.spawnedDebris > 0) {
+                const firstDebris = debrisItems[0];
+                firstDebris.classList.add('collected');
+                
+                // Immediately decrement the counter to prevent double counting
+                gameState.spawnedDebris = Math.max(0, gameState.spawnedDebris - 1);
+                
+                setTimeout(() => {
+                    if (firstDebris.parentNode) {
+                        firstDebris.remove();
+                    }
+                }, 500);
+                
+                const baseAmount = upgradeDefinitions.collector.effect(gameState.upgrades.collector.level);
+                const efficiency = upgradeDefinitions.efficiency.effect(gameState.upgrades.efficiency.level);
+                const prestigeMultiplier = 1 + (gameState.prestigeBonus / 100);
+                const amount = Math.floor(baseAmount * efficiency * prestigeMultiplier);
+                
+                gameState.debris += amount;
+                gameState.totalDebris += amount;
+                
+                // Visual feedback
+                createCollectionEffect();
+                checkAchievements();
+                
+                // Show collection amount feedback
+                showCollectionFeedback(amount);
+                
+                // Update button state immediately
+                updateCollectButton();
+                updateDebrisCounter();
+            }
+        }
+
+        // Auto collect debris
+        function autoCollect() {
+            if (gameState.gameOver) return;
+            
+            const currentTime = Date.now();
+            const autoCollectorLevel = gameState.upgrades.autoCollector.level;
+            
+            // Only auto-collect if we have the upgrade and there's spawned debris
+            if (autoCollectorLevel > 0 && gameState.spawnedDebris > 0) {
+                const cooldownSeconds = upgradeDefinitions.autoCollector.effect(autoCollectorLevel);
+                const cooldownMs = cooldownSeconds * 1000;
+                gameState.autoCollectorMaxCooldown = cooldownMs;
+                
+                // Update cooldown progress
+                const timeSinceLastCollect = currentTime - gameState.lastAutoCollect;
+                gameState.autoCollectorCooldown = Math.max(0, cooldownMs - timeSinceLastCollect);
+                
+                // Check if enough time has passed since last auto-collection
+                if (timeSinceLastCollect >= cooldownMs) {
+                    // Find and remove one debris piece from the field
+                    const debrisItems = document.querySelectorAll('.debris-item:not(.collected)');
+                    if (debrisItems.length > 0 && gameState.spawnedDebris > 0) {
+                        const randomDebris = debrisItems[Math.floor(Math.random() * debrisItems.length)];
+                        randomDebris.classList.add('collected');
+                        
+                        // Immediately decrement the counter
+                        gameState.spawnedDebris = Math.max(0, gameState.spawnedDebris - 1);
+                        
+                        setTimeout(() => {
+                            if (randomDebris.parentNode) {
+                                randomDebris.remove();
+                            }
+                        }, 500);
+                        
+                        // Calculate collection amount (same as manual but without manual collector bonus)
+                        const efficiency = upgradeDefinitions.efficiency.effect(gameState.upgrades.efficiency.level);
+                        const prestigeMultiplier = 1 + (gameState.prestigeBonus / 100);
+                        const amount = Math.floor(1 * efficiency * prestigeMultiplier); // Base 1 debris per auto-collect
+                        
+                        gameState.debris += amount;
+                        gameState.totalDebris += amount;
+                        
+                        // Update last auto-collect time and reset cooldown
+                        gameState.lastAutoCollect = currentTime;
+                        gameState.autoCollectorCooldown = cooldownMs; // Start new cooldown
+                        
+                        checkAchievements();
+                    }
+                }
+            } else if (autoCollectorLevel > 0) {
+                // Still update cooldown even if no debris to collect
+                const cooldownSeconds = upgradeDefinitions.autoCollector.effect(autoCollectorLevel);
+                const cooldownMs = cooldownSeconds * 1000;
+                gameState.autoCollectorMaxCooldown = cooldownMs;
+                
+                const timeSinceLastCollect = currentTime - gameState.lastAutoCollect;
+                gameState.autoCollectorCooldown = Math.max(0, cooldownMs - timeSinceLastCollect);
+            } else {
+                // No auto collector
+                gameState.autoCollectorCooldown = 0;
+                gameState.autoCollectorMaxCooldown = 0;
+            }
+        }
+
+        // Update all displays
+        function updateDisplay() {
+            if (gameState.gameOver) return;
+            
+            document.getElementById('debrisCount').textContent = formatNumber(Math.floor(gameState.debris));
+            document.getElementById('totalCleanup').textContent = formatNumber(Math.floor(gameState.totalDebris));
+            document.getElementById('prestigeLevel').textContent = gameState.prestigeLevel;
+            
+            // Update auto collector progress
+            updateAutoCollectorProgress();
+            
+            // Update game clock
+            updateGameClock();
+            
+            // Update debris counter
+            updateDebrisCounter();
+            
+            // Update collect button
+            updateCollectButton();
+            
+            // Update upgrade buttons availability
+            updateUpgradeButtons();
+            
+            // Check if prestige is available
+            const prestigeThreshold = 1000000 * Math.pow(10, gameState.prestigeLevel);
+            if (gameState.totalDebris >= prestigeThreshold) {
+                document.getElementById('prestigeInfo').style.display = 'block';
+                const bonus = calculatePrestigeBonus();
+                document.getElementById('prestigeBonus').textContent = bonus;
+                document.getElementById('modalPrestigeBonus').textContent = bonus;
+            } else {
+                document.getElementById('prestigeInfo').style.display = 'none';
+            }
+        }
+
+        // Update game clock display
+        function updateGameClock() {
+            const currentTime = Date.now();
+            const elapsedTime = Math.floor((currentTime - gameState.gameStartTime) / 1000);
+            
+            const hours = Math.floor(elapsedTime / 3600);
+            const minutes = Math.floor((elapsedTime % 3600) / 60);
+            const seconds = elapsedTime % 60;
+            
+            const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('gameClock').textContent = timeString;
+        }
+
+        // Update debris counter display
+        function updateDebrisCounter() {
+            const counter = document.getElementById('debrisCounter');
+            const current = Math.max(0, gameState.spawnedDebris); // Ensure never negative
+            const max = gameState.maxDebrisLimit;
+            
+            counter.textContent = `Debris: ${current}/${max}`;
+            
+            if (current >= max * 0.8) {
+                counter.classList.add('danger');
+            } else {
+                counter.classList.remove('danger');
+            }
+        }
+
+        // Update collect button state
+        function updateCollectButton() {
+            const button = document.getElementById('collectBtn');
+            if (gameState.gameOver) {
+                button.disabled = true;
+                button.textContent = '💀 Game Over - Kessler Syndrome';
+            } else if (gameState.spawnedDebris > 0) {
+                button.disabled = false;
+                button.textContent = `🧹 Collect Debris (${Math.max(0, gameState.spawnedDebris)} available)`;
+            } else {
+                button.disabled = true;
+                button.textContent = '🧹 No Debris to Collect';
+            }
+        }
+
+        // Update upgrade button states without re-rendering everything
+        function updateUpgradeButtons() {
+            Object.keys(gameState.upgrades).forEach(upgradeKey => {
+                const cost = calculateUpgradeCost(upgradeKey);
+                const button = document.querySelector(`[onclick="purchaseUpgrade('${upgradeKey}')"]`);
+                if (button) {
+                    if (gameState.debris >= cost) {
+                        button.disabled = false;
+                        button.textContent = `Buy for ${formatNumber(cost)} debris`;
+                    } else {
+                        button.disabled = true;
+                        button.textContent = `Buy for ${formatNumber(cost)} debris`;
+                    }
+                }
+            });
+        }
+
+        // Render upgrade buttons
+        function renderUpgrades() {
+            const container = document.getElementById('upgradesList');
+            container.innerHTML = '';
+            
+            Object.keys(gameState.upgrades).forEach(upgradeKey => {
+                const upgrade = gameState.upgrades[upgradeKey];
+                const definition = upgradeDefinitions[upgradeKey];
+                const cost = calculateUpgradeCost(upgradeKey);
+                
+                const upgradeDiv = document.createElement('div');
+                upgradeDiv.className = 'upgrade-item';
+                
+                upgradeDiv.innerHTML = `
+                    <div class="upgrade-header">
+                        <span class="upgrade-name">${definition.icon} ${definition.name}</span>
+                        <span class="upgrade-level">Level ${upgrade.level}</span>
+                    </div>
+                    <div class="upgrade-description">
+                        ${definition.description}
+                        ${upgradeKey === 'autoCollector' && upgrade.level > 0 ? 
+                            `<br><small>Current: ${upgradeDefinitions.autoCollector.effect(upgrade.level)}s cooldown</small>` : ''}
+                    </div>
+                    <button class="upgrade-btn" onclick="purchaseUpgrade('${upgradeKey}')" 
+                            ${gameState.debris < cost ? 'disabled' : ''}>
+                        Buy for ${formatNumber(cost)} debris
+                    </button>
+                `;
+                
+                container.appendChild(upgradeDiv);
+            });
+        }
+
+        // Purchase upgrade
+        function purchaseUpgrade(upgradeKey) {
+            const cost = calculateUpgradeCost(upgradeKey);
+            if (gameState.debris >= cost) {
+                gameState.debris -= cost;
+                gameState.upgrades[upgradeKey].level++;
+                renderUpgrades();
+                checkAchievements();
+                
+                // Show upgrade feedback
+                const definition = upgradeDefinitions[upgradeKey];
+                showAchievement(`${definition.icon} Upgrade Purchased!`, `${definition.name} is now level ${gameState.upgrades[upgradeKey].level}`);
+            }
+        }
+
+        // Calculate upgrade cost
+        function calculateUpgradeCost(upgradeKey) {
+            const upgrade = gameState.upgrades[upgradeKey];
+            return Math.floor(upgrade.baseCost * Math.pow(upgrade.multiplier, upgrade.level));
+        }
+
+        // Calculate prestige bonus
+        function calculatePrestigeBonus() {
+            return Math.floor(Math.sqrt(gameState.totalDebris / 1000000) * 10);
+        }
+
+        // Prestige system
+        function showPrestigeModal() {
+            const prestigeThreshold = 1000000 * Math.pow(10, gameState.prestigeLevel);
+            if (gameState.totalDebris >= prestigeThreshold) {
+                document.getElementById('prestigeModal').style.display = 'block';
+            }
+        }
+
+        function hidePrestigeModal() {
+            document.getElementById('prestigeModal').style.display = 'none';
+        }
+
+        function prestige() {
+            const bonus = calculatePrestigeBonus();
+            gameState.prestigeBonus += bonus;
+            gameState.prestigeLevel++;
+            
+            // Reset progress
+            gameState.debris = 0;
+            gameState.totalDebris = 0;
+            gameState.autoCollectorCooldown = 0;
+            gameState.autoCollectorMaxCooldown = 0;
+            gameState.lastAutoCollect = 0;
+            Object.keys(gameState.upgrades).forEach(key => {
+                gameState.upgrades[key].level = 0;
+            });
+            
+            hidePrestigeModal();
+            renderUpgrades();
+            showAchievement("Prestige Achieved!", `+${bonus}% permanent bonus!`);
+            checkAchievements();
+        }
+
+        // Visual effects
+        function createCollectionEffect() {
+            const btn = document.getElementById('collectBtn');
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                btn.style.transform = 'scale(1)';
+            }, 100);
+        }
+
+        function showCollectionFeedback(amount) {
+            const btn = document.getElementById('collectBtn');
+            const feedback = document.createElement('div');
+            feedback.textContent = `+${formatNumber(amount)}`;
+            feedback.style.cssText = `
+                position: absolute;
+                color: #00d4ff;
+                font-weight: bold;
+                font-size: 1.2em;
+                pointer-events: none;
+                z-index: 1000;
+                animation: floatUp 1s ease-out forwards;
+            `;
+            
+            // Position relative to button
+            const rect = btn.getBoundingClientRect();
+            feedback.style.left = (rect.left + rect.width/2) + 'px';
+            feedback.style.top = (rect.top - 10) + 'px';
+            
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.parentNode.removeChild(feedback);
+                }
+            }, 1000);
+        }
+
+        function spawnDebris() {
+            if (gameState.gameOver) return;
+            
+            // Increase spawn rate as auto-collectors get stronger
+            let spawnChance = 0.4; // Base 40% chance
+            const autoCollectorLevel = gameState.upgrades.autoCollector.level;
+            const scannerLevel = gameState.upgrades.scanner.level;
+            
+            // More debris spawns as you get better at collecting
+            spawnChance += (autoCollectorLevel * 0.1) + (scannerLevel * 0.05);
+            spawnChance = Math.min(spawnChance, 0.8); // Cap at 80%
+            
+            if (Math.random() < spawnChance) {
+                const field = document.getElementById('debrisField');
+                const debris = document.createElement('div');
+                debris.className = 'debris-item';
+                debris.style.left = Math.random() * (field.offsetWidth - 30) + 'px';
+                debris.style.top = Math.random() * (field.offsetHeight - 100) + 60 + 'px'; // Avoid button area
+                debris.style.animationDelay = Math.random() * 2 + 's';
+                
+                // Remove click event - debris is no longer clickable
+                // Only the collect button should work
+                
+                field.appendChild(debris);
+                gameState.spawnedDebris++;
+                
+                // Check for Kessler Syndrome
+                if (gameState.spawnedDebris >= gameState.maxDebrisLimit) {
+                    triggerKesslerSyndrome();
+                }
+            }
+        }
+
+        // Trigger Kessler Syndrome game over
+        function triggerKesslerSyndrome() {
+            gameState.gameOver = true;
+            
+            // Stop all game loops immediately
+            clearInterval(window.gameInterval);
+            clearInterval(window.displayInterval);
+            clearInterval(window.spawnInterval);
+            
+            // Prevent any further debris spawning or collection
+            const collectBtn = document.getElementById('collectBtn');
+            if (collectBtn) {
+                collectBtn.disabled = true;
+                collectBtn.textContent = '💀 Game Over - Kessler Syndrome';
+            }
+            
+            // Show game over modal after a brief delay for dramatic effect
+            setTimeout(() => {
+                showKesslerSyndromeModal();
+            }, 1000);
+        }
+
+        // Show Kessler Syndrome modal
+        function showKesslerSyndromeModal() {
+            document.getElementById('finalDebrisCount').textContent = formatNumber(Math.floor(gameState.totalDebris));
+            document.getElementById('finalPrestigeLevel').textContent = gameState.prestigeLevel;
+            
+            // Calculate survival time (rough estimate)
+            const survivalTime = Math.floor((Date.now() - gameState.lastSave) / 1000);
+            document.getElementById('survivalTime').textContent = survivalTime;
+            
+            document.getElementById('kesslerModal').style.display = 'block';
+        }
+
+        // Restart the game
+        function restartGame() {
+            // Reset game state but keep prestige bonuses
+            const preservedPrestige = gameState.prestigeLevel;
+            const preservedBonus = gameState.prestigeBonus;
+            
+            gameState = {
+                debris: 0,
+                totalDebris: 0,
+                prestigeLevel: preservedPrestige,
+                prestigeBonus: preservedBonus,
+                spawnedDebris: 0,
+                maxDebrisLimit: 20 + (preservedPrestige * 5), // Increase limit with prestige
+                gameStartTime: Date.now(), // Reset game clock
+                lastAutoCollect: 0, // Reset auto-collection timer
+                autoCollectorCooldown: 0,
+                autoCollectorMaxCooldown: 0,
+                upgrades: {
+                    collector: { level: 0, baseCost: 10, multiplier: 1.5 },
+                    autoCollector: { level: 0, baseCost: 100, multiplier: 2 },
+                    efficiency: { level: 0, baseCost: 500, multiplier: 2.5 },
+                    scanner: { level: 0, baseCost: 1000, multiplier: 3 },
+                    magneticField: { level: 0, baseCost: 5000, multiplier: 4 }
+                },
+                achievements: gameState.achievements, // Keep achievements
+                lastSave: Date.now(),
+                gameOver: false
+            };
+            
+            // Clear debris field
+            const debrisItems = document.querySelectorAll('.debris-item');
+            debrisItems.forEach(item => item.remove());
+            
+            // Hide modal
+            document.getElementById('kesslerModal').style.display = 'none';
+            
+            // Restart game loops
+            window.gameInterval = setInterval(autoCollect, 100);
+            window.displayInterval = setInterval(updateDisplay, 100);
+            window.spawnInterval = setInterval(spawnDebris, 2000);
+            
+            // Update display
+            renderUpgrades();
+            updateDisplay();
+            
+            showAchievement("Mission Restarted!", `Debris limit increased to ${gameState.maxDebrisLimit} pieces!`);
+        }
+
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                particle.style.animationDuration = (2 + Math.random() * 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Achievement system
+        function checkAchievements() {
+            Object.keys(achievements).forEach(key => {
+                if (!gameState.achievements.has(key)) {
+                    const achievement = achievements[key];
+                    let unlocked = false;
+                    
+                    switch (key) {
+                        case 'firstDebris':
+                        case 'hundred':
+                        case 'thousand':
+                        case 'tenThousand':
+                        case 'hundredThousand':
+                            unlocked = gameState.totalDebris >= achievement.threshold;
+                            break;
+                        case 'firstUpgrade':
+                            unlocked = Object.values(gameState.upgrades).some(u => u.level >= 1);
+                            break;
+                        case 'firstPrestige':
+                            unlocked = gameState.prestigeLevel >= 1;
+                            break;
+                    }
+                    
+                    if (unlocked) {
+                        gameState.achievements.add(key);
+                        showAchievement(achievement.name, achievement.description);
+                    }
+                }
+            });
+        }
+
+        function showAchievement(title, description) {
+            const popup = document.getElementById('achievementPopup');
+            document.getElementById('achievementText').innerHTML = `
+                <strong>🏆 ${title}</strong><br>
+                ${description}
+            `;
+            
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 4000);
+        }
+
+        // Save/Load system with encryption
+        function saveGame() {
+            const saveData = {
+                ...gameState,
+                achievements: Array.from(gameState.achievements),
+                timestamp: Date.now()
+            };
+            
+            // Simple encryption (base64 + reverse)
+            const encrypted = btoa(JSON.stringify(saveData)).split('').reverse().join('');
+            
+            const blob = new Blob([encrypted], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `orbital-debris-save-${new Date().getTime()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showAchievement("Game Saved!", "Your progress has been saved to file.");
+        }
+
+        function loadGameFromFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    // Decrypt
+                    const decrypted = atob(e.target.result.split('').reverse().join(''));
+                    const saveData = JSON.parse(decrypted);
+                    
+                    // Restore game state
+                    gameState = {
+                        ...gameState,
+                        ...saveData,
+                        achievements: new Set(saveData.achievements || [])
+                    };
+                    
+                    updateDisplay();
+                    renderUpgrades();
+                    showAchievement("Game Loaded!", "Your progress has been restored.");
+                } catch (error) {
+                    alert("Failed to load save file. The file may be corrupted.");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function loadGame() {
+            // For demo purposes, just use default state
+            // In a real implementation, you might use localStorage
+        }
+
+        // Utility functions
+        function formatNumber(num, decimals = 0) {
+            if (num >= 1e12) return (num / 1e12).toFixed(decimals) + 'T';
+            if (num >= 1e9) return (num / 1e9).toFixed(decimals) + 'B';
+            if (num >= 1e6) return (num / 1e6).toFixed(decimals) + 'M';
+            if (num >= 1e3) return (num / 1e3).toFixed(decimals) + 'K';
+            return num.toFixed(decimals);
+        }
+
+        // Initialize game when page loads
+        document.addEventListener('DOMContentLoaded', initGame);
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const prestigeModal = document.getElementById('prestigeModal');
+            const kesslerModal = document.getElementById('kesslerModal');
+            
+            if (event.target === prestigeModal) {
+                hidePrestigeModal();
+            }
+            // Don't allow closing Kessler modal by clicking outside
+        });
+
+        // Update auto collector progress display
+        function updateAutoCollectorProgress() {
+            const autoCollectorCard = document.getElementById('autoCollectorCard');
+            const progressFill = document.getElementById('autoCollectorProgress');
+            const statusText = document.getElementById('autoCollectorStatus');
+            
+            if (gameState.upgrades.autoCollector.level > 0) {
+                autoCollectorCard.style.display = 'block';
+                
+                if (gameState.autoCollectorCooldown > 0) {
+                    const progress = 1 - (gameState.autoCollectorCooldown / gameState.autoCollectorMaxCooldown);
+                    progressFill.style.width = (progress * 100) + '%';
+                    statusText.textContent = `Cooldown: ${(gameState.autoCollectorCooldown / 1000).toFixed(1)}s`;
+                } else {
+                    progressFill.style.width = '100%';
+                    statusText.textContent = 'Ready';
+                }
+            } else {
+                autoCollectorCard.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
