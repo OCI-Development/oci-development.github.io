@@ -4,6 +4,7 @@
       "name": "Test Course Name",
       "description": "Test course description.",
       "link": "#",
+      "type": "course",
       "free": true,
       "price": null,
       "tags": ["Beginner", "Space", "Debris"]
