@@ -10,6 +10,17 @@
       "tags": ["Beginner", "Space", "Debris"]
     },
     {
+      "name": "Space Debris: Is it a Crisis?",
+      "description": "The European Space Agency’s short documentary film ‘Space Debris: Is it a Crisis?’ on the state of space debris premiered at the 9th European Conference on Space Debris on 1 Apr 2025.",
+      "link": "https://youtu.be/yIsPbysinKw?si=TNmHqRx-gN8WmNLg",
+      "type": "youtube",
+      "free": true,
+      "price": null,
+      "uploadDate": "2025-04-01",
+      "duration": "8:06",
+      "tags": ["ESA", "Educational", "Debris"]
+    },
+    {
       "name": "End of Space – Creating a Prison for Humanity",
       "description": "Space travel is the most exciting adventure for humanity, but in an irony of history we may stop ourselves from going into space the more we do it. With every rocket launched we are creating a deadly trap for mankind.",
       "link": "https://youtu.be/yS1ibDImAYU?si=lLjoRmAaFQzJkk2R",
