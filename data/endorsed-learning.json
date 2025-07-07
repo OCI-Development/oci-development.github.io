@@ -30,6 +30,17 @@
       "uploadDate": "2018-11-25",
       "duration": "7:34",
       "tags": ["Kurzgesagt", "Educational", "Debris"]
+    },
+    {
+      "name": "Saving Space: The Fight Against Orbital Trash",
+      "description": "Orbital debris is the stuff of nightmares for astronauts. And with good reason – the amount of rubbish circling the Earth has risen exponentially over the last twenty years as space exploration has grown and increasing numbers of satellites are launched.",
+      "link": "https://youtu.be/lpufQpUaExQ?si=9vmTAr9wrU_gTgid",
+      "type": "youtube",
+      "free": true,
+      "price": null,
+      "uploadDate": "2025-11-16",
+      "duration": "53:50",
+      "tags": ["SLICE Earth", "Educational", "Debris"]
     }
   ]
 }
