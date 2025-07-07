@@ -1,0 +1,11 @@
+{
+  "courses": [
+    {
+      "name": "Test Course Name",
+      "description": "Test course description.",
+      "link": "#",
+      "free": true,
+      "price": null
+    }
+  ]
+}
