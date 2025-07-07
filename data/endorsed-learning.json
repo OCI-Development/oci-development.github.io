@@ -5,7 +5,8 @@
       "description": "Test course description.",
       "link": "#",
       "free": true,
-      "price": null
+      "price": null,
+      "tags": ["Beginner", "Space", "Debris"]
     },
     {
       "name": "End of Space – Creating a Prison for Humanity",
@@ -13,7 +14,9 @@
       "link": "https://youtu.be/yS1ibDImAYU?si=lLjoRmAaFQzJkk2R",
       "type": "youtube",
       "free": true,
-      "price": null
+      "price": null,
+      "uploadDate": "2023-11-25",
+      "tags": ["Kurzgesagt", "Educational", "Space", "Debris"]
     }
   ]
 }
