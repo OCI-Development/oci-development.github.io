@@ -6,6 +6,14 @@
       "link": "#",
       "free": true,
       "price": null
+    },
+    {
+      "name": "End of Space – Creating a Prison for Humanity",
+      "description": "Space travel is the most exciting adventure for humanity, but in an irony of history we may stop ourselves from going into space the more we do it. With every rocket launched we are creating a deadly trap for mankind.",
+      "link": "https://youtu.be/yS1ibDImAYU?si=lLjoRmAaFQzJkk2R",
+      "type": "youtube",
+      "free": true,
+      "price": null
     }
   ]
 }
