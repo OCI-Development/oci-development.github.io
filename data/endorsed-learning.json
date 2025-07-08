@@ -7,9 +7,10 @@
       "type": "youtube",
       "free": true,
       "price": null,
+      "author": "European Space Agency",
       "uploadDate": "2025-04-01",
       "duration": "8:07",
-      "tags": ["ESA", "Educational"]
+      "tags": ["Educational"]
     },
     {
       "name": "End of Space – Creating a Prison for Humanity",
@@ -18,9 +19,10 @@
       "type": "youtube",
       "free": true,
       "price": null,
+      "author": "Kurzgesagt",
       "uploadDate": "2018-11-25",
       "duration": "7:35",
-      "tags": ["Kurzgesagt", "Educational"]
+      "tags": ["Educational"]
     },
     {
       "name": "Saving Space: The Fight Against Orbital Trash",
@@ -29,9 +31,10 @@
       "type": "youtube",
       "free": true,
       "price": null,
+      "author": "SLICE Earth",
       "uploadDate": "2025-11-16",
       "duration": "53:51",
-      "tags": ["SLICE Earth", "Educational"]
+      "tags": ["Educational"]
     },
     {
       "name": "The Sky is Falling - A lesson on Space Junk with former NASA Engineer, Linda Dawson",
@@ -40,9 +43,10 @@
       "type": "youtube",
       "free": true,
       "price": null,
+      "author": "The Museum of Flight",
       "uploadDate": "2024-11-07",
       "duration": "44:18",
-      "tags": ["The Museum of Flight", "Educational"]
+      "tags": ["Educational"]
     },
     {
       "name": "Test Course Name",
@@ -51,6 +55,7 @@
       "type": "course",
       "free": true,
       "price": null,
+      "author": "Test",
       "tags": ["Beginner", "Space", "Debris"]
     }
   ]
