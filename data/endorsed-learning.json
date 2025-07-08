@@ -9,7 +9,7 @@
       "price": null,
       "uploadDate": "2025-04-01",
       "duration": "8:07",
-      "tags": ["ESA", "Educational", "Debris"]
+      "tags": ["ESA", "Educational"]
     },
     {
       "name": "End of Space – Creating a Prison for Humanity",
@@ -20,7 +20,7 @@
       "price": null,
       "uploadDate": "2018-11-25",
       "duration": "7:35",
-      "tags": ["Kurzgesagt", "Educational", "Debris"]
+      "tags": ["Kurzgesagt", "Educational"]
     },
     {
       "name": "Saving Space: The Fight Against Orbital Trash",
@@ -31,7 +31,18 @@
       "price": null,
       "uploadDate": "2025-11-16",
       "duration": "53:51",
-      "tags": ["SLICE Earth", "Educational", "Debris"]
+      "tags": ["SLICE Earth", "Educational"]
+    },
+    {
+      "name": "The Sky is Falling - A lesson on Space Junk with former NASA Engineer, Linda Dawson",
+      "description": "Hundreds of satellites and rockets launched into space are left as space junk once they no longer work. An estimated millions of pieces of debris currently orbit the Earth, traveling fast enough to damage or destroy a spacecraft or satellite that happens to be in its path. These objects remain in orbit until gravity pulls them back to Earth, potentially remaining in space for decades.",
+      "link": "https://youtu.be/7gDv9PowH64?si=NzogTdsMwaCQ64nB",
+      "type": "youtube",
+      "free": true,
+      "price": null,
+      "uploadDate": "2024-11-07",
+      "duration": "44:18",
+      "tags": ["The Museum of Flight", "Educational"]
     },
     {
       "name": "Test Course Name",
