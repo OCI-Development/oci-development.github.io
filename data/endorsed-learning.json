@@ -1,15 +1,6 @@
 {
   "courses": [
     {
-      "name": "Test Course Name",
-      "description": "Test course description.",
-      "link": "#",
-      "type": "course",
-      "free": true,
-      "price": null,
-      "tags": ["Beginner", "Space", "Debris"]
-    },
-    {
       "name": "Space Debris: Is it a Crisis?",
       "description": "The European Space Agency’s short documentary film ‘Space Debris: Is it a Crisis?’ on the state of space debris premiered at the 9th European Conference on Space Debris on 1 Apr 2025.",
       "link": "https://youtu.be/yIsPbysinKw?si=TNmHqRx-gN8WmNLg",
@@ -41,6 +32,15 @@
       "uploadDate": "2025-11-16",
       "duration": "53:50",
       "tags": ["SLICE Earth", "Educational", "Debris"]
+    },
+    {
+      "name": "Test Course Name",
+      "description": "Test course description.",
+      "link": "#",
+      "type": "course",
+      "free": true,
+      "price": null,
+      "tags": ["Beginner", "Space", "Debris"]
     }
   ]
 }
